@@ -1,0 +1,6 @@
+/**
+@defgroup Shakal_Core Jadro systému Shakal CMS
+@defgroup Shakal_Exceptions Výnimky
+@defgroup Shakal_Table Tabuľka
+@defgroup Shakal_Sql SQL databáza
+*/
