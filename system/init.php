@@ -10,5 +10,4 @@ require(ShakalPath::toPath(SITE_PATH.'system/ShakalRouter.php'));
 require(ShakalPath::toPath(SITE_PATH.'system/ShakalTable.php'));
 
 require(ShakalPath::toPath(SITE_PATH.'system/ShakalSql.php'));
-
 ?>
