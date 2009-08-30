@@ -16,10 +16,8 @@
  */
 abstract class ShakalTableCell
 {
-	/// Dáta bunky tabuľky.
-	protected $_data;
-	/// Informácia o tom, či je bunka hlavičkou.
-	protected $_headerCell = false;
+	protected $_data; /**< Dáta bunky tabuľky. */
+	protected $_headerCell = false; /**< Informácia o tom, či je bunka hlavičkou. */
 	/** Atribúty bunky.
 	 *
 	 * Kľúčom v poli atribútov je názov atribútu. Hodnota je hodnotou atribútu
@@ -101,13 +99,17 @@ abstract class ShakalTableCell
 		return $this->_headerCell;
 	}
 
-	/// Nastavenie atribútu bunky.
+	/**
+     * Nastavenie atribútu bunky.
+	 */
 	public function __set($name, $value)
 	{
 		$this->_attributes[$name] = $value;
 	}
 
-	/// Získanie atribútu bunky.
+	/**
+     * Získanie atribútu bunky.
+	 */
 	public function __get($name)
 	{
 		return $this->_attributes[$name];
@@ -126,10 +128,8 @@ abstract class ShakalTableCell
  */
 abstract class ShakalTableRow
 {
-	/// Pole buniek riadku tabuľky.
-	protected $_cells      = array();
-	/// Zoznam atribútov riadku.
-	protected $_attributes = array();
+	protected $_cells      = array(); /**< Pole buniek riadku tabuľky. */
+	protected $_attributes = array(); /**< Zoznam atribútov riadku. */
 
 	/**
 	 * Renderovanie riadku tabuľky a jeho buniek.
@@ -184,7 +184,9 @@ abstract class ShakalTableRow
 		}
 	}
 
-	/// Pridanie bunky tabuľky.
+	/**
+	 * Pridanie bunky tabuľky.
+	 */
 	public function addCell($cell)
 	{
 		if (!is_object($cell) || !$cell instanceof ShakalTableCell) {
@@ -193,13 +195,17 @@ abstract class ShakalTableRow
 		array_push($this->_cells, $cell);
 	}
 
-	/// Nastavenie atribútu riadku.
+	/**
+	 * Nastavenie atribútu riadku.
+	 */
 	public function __set($name, $value)
 	{
 		$this->_attributes[$name] = $value;
 	}
 
-	/// Získanie atribútu riadku.
+	/**
+	 * Získanie atribútu riadku.
+	 */
 	public function __get($name)
 	{
 		return $this->_attributes[$name];
@@ -219,14 +225,10 @@ abstract class ShakalTableRow
  */
 abstract class ShakalTable
 {
-	/// Zoznam riadkov tabuľky.
-	protected $_rows       = array();
-	/// Zoznam riadkov hlavičky tabuľky.
-	protected $_headerRows = array();
-	/// Titulok tabuľky.
-	protected $_caption    = array();
-	/// Atribúty tabuľky.
-	protected $_attributes = array();
+	protected $_rows       = array(); /**< Zoznam riadkov tabuľky. */
+	protected $_headerRows = array(); /**< Zoznam riadkov hlavičky tabuľky. */
+	protected $_caption    = array(); /**< Titulok tabuľky. */
+	protected $_attributes = array(); /**< Atribúty tabuľky. */
 
 	/**
 	 * Vyrenderovanie tabuľky a jej riadkov.
@@ -253,19 +255,25 @@ abstract class ShakalTable
 		$this->setCaption($caption);
 	}
 
-	/// Získanie spracovaných dát tabuľky.
+	/**
+	 * Získanie spracovaných dát tabuľky.
+	 */
 	public function data()
 	{
 		return $this->_rows;
 	}
 
-	/// Získanie spracovaných dát hlavičky tabuľky.
+	/**
+	 * Získanie spracovaných dát hlavičky tabuľky.
+	 */
 	public function headerData()
 	{
 		return $this->_headerRows;
 	}
 
-	/// Získanie titulku tabuľky.
+	/**
+	 * Získanie titulku tabuľky.
+	 */
 	public function caption()
 	{
 		return $this->_caption;
@@ -297,7 +305,9 @@ abstract class ShakalTable
 		}
 	}
 
-	/// Nastavenie titulku tabuľky.
+	/**
+	 * Nastavenie titulku tabuľky.
+	 */
 	public function setCaption($caption)
 	{
 		$this->_caption = $caption;
@@ -330,13 +340,17 @@ abstract class ShakalTable
 		}
 	}
 
-	/// Nastavenie atribútu tabuľky.
+	/**
+	 * Nastavenie atribútu tabuľky.
+	 */
 	public function __set($name, $value)
 	{
 		$this->_attributes[$name] = $value;
 	}
 
-	/// Získanie atribútu tabuľky.
+	/**
+	 * Získanie atribútu tabuľky.
+	 */
 	public function __get($name)
 	{
 		return $this->_attributes[$name];

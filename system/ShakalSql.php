@@ -24,10 +24,8 @@
  */
 class ShakalSqlExpr
 {
-	/// Neupravený SQL výraz.
-	public $query;
-	/// Zoznam premenných vyskytujúcich sa vo výraze.
-	public $args;
+	public $query; /**< Neupravený SQL výraz. */
+	public $args;  /**< Zoznam premenných vyskytujúcich sa vo výraze. */
 
 	/**
 	 * Výtvorenie SQL výrazu.
@@ -57,10 +55,11 @@ class ShakalSqlExpr
  */
 class ShakalRawSqlExpr
 {
-	/// SQL výraz.
-	public $query;
+	public $query; /**< SQL výraz. */
 
-	/// Vytvorenie nového SQL výrazu.
+	/**
+	 * Vytvorenie nového SQL výrazu.
+	 */
 	public function __construct($query)
 	{
 		$this->query = $query;
@@ -78,17 +77,12 @@ class ShakalRawSqlExpr
  */
 abstract class ShakalSqlResult
 {
-	/// Vrátenie SQL výsledku ako asociatívne pole s názvom stĺpca ako kľúč poľa.
-	const Assoc = 0;
-	/// Vrátenie SQL výsledku ako homogénne pole.
-	const Num   = 1;
-	/// Vrátenie výsledku ako homogónne pole a zároveň ako asociatívne pole.
-	const Both  = 2;
+	const Assoc = 0; /**< Vrátenie SQL výsledku ako asociatívne pole s názvom stĺpca ako kľúč poľa. */
+	const Num   = 1; /**< Vrátenie SQL výsledku ako homogénne pole. */
+	const Both  = 2; /**< Vrátenie výsledku ako homogónne pole a zároveň ako asociatívne pole. */
 
-	/// Výsledok vrátený databázovým serverom.
-	protected $_result = false;
-	/// Pripojenie k databáze.
-	protected $_db = null;
+	protected $_result = false; /**< Výsledok vrátený databázovým serverom. */
+	protected $_db = null;      /**< Pripojenie k databáze. */
 
 	/**
 	 * Vytvorenie nového objektu z výsledku vráteného databázou.
@@ -166,7 +160,9 @@ pole[text] = 'abc'\endverbatim
 	 */
 	public abstract function fetchObject($className = null, array $params = null);
 
-	/// Funkcia vráti počet riadkov pri výbere dát z tabuľky.
+	/**
+	 * Funkcia vráti počet riadkov pri výbere dát z tabuľky.
+	 */
 	public abstract function numRows();
 
 	/**
@@ -179,13 +175,19 @@ pole[text] = 'abc'\endverbatim
 	 */
 	public abstract function lastInsertId($table = null);
 
-	/// Funkcia vracia počet riadkov ovplyvnených posledným SQL dotazom.
+	/**
+	 * Funkcia vracia počet riadkov ovplyvnených posledným SQL dotazom.
+	 */
 	public abstract function affectedRows();
 
-	/// Uvoľnenie výsledku z pamäte.
+	/**
+	 * Uvoľnenie výsledku z pamäte.
+	 */
 	public abstract function free();
 
-	/// Funkcia vráti nespracovaný výsledok SQL volania.
+	/**
+	 * Funkcia vráti nespracovaný výsledok SQL volania.
+	 */
 	public function result()
 	{
 		return $this->_result;
@@ -277,7 +279,9 @@ pole[text] = 'abc'\endverbatim
  */
 class ShakalMySqlResult extends ShakalSqlResult
 {
-	/// \reimp
+	/**
+	 * \reimp
+	 */
 	public function fetchArray($type = self::Both)
 	{
 		switch ($type)
@@ -288,7 +292,9 @@ class ShakalMySqlResult extends ShakalSqlResult
 		}
 	}
 
-	/// \reimp
+	/**
+	 * \reimp
+	 */
 	public function fetchObject($className = null, array $params = null)
 	{
 		if (is_null($className))
@@ -299,25 +305,33 @@ class ShakalMySqlResult extends ShakalSqlResult
 			return mysql_fetch_object($this->_result, $className, $params);
 	}
 
-	/// \reimp
+	/**
+	 * \reimp
+	 */
 	public function numRows()
 	{
 		return mysql_num_rows($this->_result);
 	}
 
-	/// \reimp
+	/**
+	 * \reimp
+	 */
 	public function lastInsertId($table = null)
 	{
 		return mysql_insert_id();
 	}
 
-	/// \reimp
+	/**
+	 * \reimp
+	 */
 	public function affectedRows()
 	{
 		return mysql_affected_rows();
 	}
 
-	/// \reimp
+	/**
+	 * \reimp
+	 */
 	public function free()
 	{
 		mysql_free_result($this->_result);
@@ -335,8 +349,7 @@ class ShakalMySqlResult extends ShakalSqlResult
  */
 class ShakalSql
 {
-	/// Typ databázy \e MySQL.
-	const MySQL = 1;
+	const MySQL = 1; /**< Typ databázy \c MySQL. */
 
 	private $_link     = null;
 	private $_dbPrefix = '';
@@ -375,7 +388,9 @@ class ShakalSql
 		return $this->_dbPrefix;
 	}
 
-	/// Metóda vráti typ databázy.
+	/**
+	 * Metóda vráti typ databázy.
+	 */
 	public function dbType()
 	{
 		return $this->_dbType;
@@ -420,7 +435,9 @@ class ShakalSql
 		}
 	}
 
-	/// Odpojenie sa od databázového serveru.
+	/**
+	 * Odpojenie sa od databázového serveru.
+	 */
 	public function disconnect()
 	{
 		if (is_null($this->_link))
@@ -456,13 +473,17 @@ class ShakalSql
 		}
 	}
 
-	/// Nahradenie podreťazca '\#__' za prefix.
+	/**
+	 * Nahradenie podreťazca '\#__' za prefix.
+	 */
 	public function replacePrefix($data)
 	{
 		return self::replacePreifxStatic($data, $this->_dbPrefix, $this->_dbType);
 	}
 
-	/// Statická metóda fungujúca ako replacePrefix.
+	/**
+	 * Statická metóda fungujúca ako replacePrefix.
+	 */
 	public static function replacePreifxStatic($query, $prefix, $dbType)
 	{
 		return str_replace('#__', $prefix, $query);
@@ -483,7 +504,9 @@ class ShakalSql
 		return self::prepareQueryStatic($query, $this->_dbPrefix, $this->_dbType, $args);
 	}
 
-	/// Funkcia funguje rovnako, ako prepareQuery, ale bez vytvorenia inštancie ShakalSql.
+	/**
+	 * Funkcia funguje rovnako, ako prepareQuery, ale bez vytvorenia inštancie ShakalSql.
+	 */
 	public static function prepareQueryStatic($query, $dbPrefix, $dbType, array $args = array())
 	{
 		$query = self::replacePreifxStatic($query, $dbPrefix, $dbType);
@@ -577,19 +600,25 @@ class ShakalSql
 		return new ShakalMySqlResult($result, $this);
 	}
 
-	/// Začiatok transakcie.
+	/**
+	 * Začiatok transakcie.
+	 */
 	public function begin()
 	{
 		mysql_query('START TRANSACTION');
 	}
 
-	/// Potvrdenie (\e commit) transakcie.
+	/**
+	 * Potvrdenie (\e commit) transakcie.
+	 */
 	public function commit()
 	{
 		mysql_query('COMMIT');
 	}
 
-	/// Návrat na začiatok transakcie.
+	/**
+	 * Návrat na začiatok transakcie.
+	 */
 	public function rollback()
 	{
 		mysql_query('ROLLBACK');
@@ -654,7 +683,9 @@ class ShakalSqlSelect
 		}
 	}
 
-	/// Potlačenie duplicít vybraných riadkov.
+	/**
+	 * Potlačenie duplicít vybraných riadkov.
+	 */
 	public function &distinct()
 	{
 		$this->_distinct = 'DISTINCT ';
@@ -802,28 +833,36 @@ class ShakalSqlSelect
 		return $this;
 	}
 
-	/// Metóda je aliasom metódy join.
+	/**
+	 * Metóda je aliasom metódy join.
+	 */
 	public function &joinInner($table, $cond, $columns = array())
 	{
 		$this->_joinPriv('INNER', $table, $cond, $columns);
 		return $this;
 	}
 
-	/// Metóda má rovnaké argumenty, ako join. Výsledkom volania je <tt>LEFT JOIN</tt>.
+	/**
+	 * Metóda má rovnaké argumenty, ako join. Výsledkom volania je <tt>LEFT JOIN</tt>.
+	 */
 	public function &joinLeft($table, $cond, $columns = array())
 	{
 		$this->_joinPriv('LEFT', $table, $cond, $columns);
 		return $this;
 	}
 
-	/// Metóda má rovnaké argumenty, ako join. Výsledkom volania je <tt>RIGHT JOIN</tt>.
+	/**
+	 * Metóda má rovnaké argumenty, ako join. Výsledkom volania je <tt>RIGHT JOIN</tt>.
+	 */
 	public function &joinRight($table, $cond, $columns = array())
 	{
 		$this->_joinPriv('RIGHT', $table, $cond, $columns);
 		return $this;
 	}
 
-	/// Metóda má rovnaké argumenty, ako join. Výsledkom volania je <tt>FULL OUTER JOIN</tt>.
+	/**
+	 * Metóda má rovnaké argumenty, ako join. Výsledkom volania je <tt>FULL OUTER JOIN</tt>.
+	 */
 	public function &joinFull($table, $cond, $columns = array())
 	{
 		$this->_joinPriv('FULL OUTER', $table, $cond, $columns);
@@ -841,7 +880,9 @@ class ShakalSqlSelect
 		return $this;
 	}
 
-	/// Metóda má rovnaké argumenty, ako joinNatural. Výsledkom volania je <tt>CROSS JOIN</tt>.
+	/**
+	 * Metóda má rovnaké argumenty, ako joinNatural. Výsledkom volania je <tt>CROSS JOIN</tt>.
+	 */
 	public function &joinCross($table, $columns = array())
 	{
 		$this->_joinPriv('CROSS', $table, null, $columns);
@@ -872,28 +913,36 @@ class ShakalSqlSelect
 		return $this;
 	}
 
-	/// Alias metódy joinUsing.
+	/**
+	 * Alias metódy joinUsing.
+	 */
 	public function &joinInnerUsing($table, $column, $columns = array())
 	{
 		$this->_joinPriv('INNER', $table, $column, $columns, true);
 		return $this;
 	}
 
-	/// Spojenie tabuliek <tt>LEFT JOIN</tt> pomocou stĺpcov \a column.
+	/**
+	 * Spojenie tabuliek <tt>LEFT JOIN</tt> pomocou stĺpcov \a column.
+	 */
 	public function &joinLeftUsing($table, $column, $columns = array())
 	{
 		$this->_joinPriv('LEFT', $table, $column, $columns, true);
 		return $this;
 	}
 
-	/// Spojenie tabuliek <tt>RIGHT JOIN</tt> pomocou stĺpcov \a column.
+	/**
+	 * Spojenie tabuliek <tt>RIGHT JOIN</tt> pomocou stĺpcov \a column.
+	 */
 	public function &joinRightUsing($table, $column, $columns = array())
 	{
 		$this->_joinPriv('RIGHT', $table, $column, $columns, true);
 		return $this;
 	}
 
-	/// Spojenie tabuliek <tt>FULL OUTER JOIN</tt> pomocou stĺpcov \a column.
+	/**
+	 * Spojenie tabuliek <tt>FULL OUTER JOIN</tt> pomocou stĺpcov \a column.
+	 */
 	public function &joinFullUsing($table, $column, $columns = array())
 	{
 		$this->_joinPriv('FULL OUTER', $table, $column, $columns, true);
@@ -934,8 +983,8 @@ class ShakalSqlSelect
 	 * \param cond Podmienka pre výber riadkov.
 	 * \param ...  Parametre podmienky, ktoré sa bezpečne ošetria a dosadia do výrazu.
 	 *
-	 * \code
 	 * Nasledujúci kód:
+	 * \code
 	 * $select = new ShakalSqlSelect;
 	 * $select->from('#__tabulka', 'a');
 	 * $select->where('b = %1', 'text');
@@ -1127,7 +1176,9 @@ class ShakalSqlSelect
 			return ' LIMIT '.$this->_limit[0].' OFFSET '.$this->_limit[1];
 	}
 
-	/// Prevod príkazu výberu na reťazec, ktorý sa dá spustiť na databázovom serveri.
+	/**
+	 * Prevod príkazu výberu na reťazec, ktorý sa dá spustiť na databázovom serveri.
+	 */
 	public function __toString()
 	{
 		return 'SELECT '
@@ -1144,8 +1195,6 @@ class ShakalSqlSelect
 
 	/**
 	 * Spustenie SQL príkazu a vrátenie výsledku volania ShakalSql::queryRaw.
-	 *
-	 * \todo Pridať \e ShakalSqlResult
 	 */
 	public function exec()
 	{

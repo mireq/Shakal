@@ -52,10 +52,8 @@ abstract class ShakalException extends Exception
  */
 class ShakalSystemException extends ShakalException
 {
-	/// Nešpecifikovaná chyba.
-	const OtherError = 0;
-	/// Chyba vyvolaná pri neexistujúcej stránke.
-	const NotFound   = 1;
+	const OtherError = 0; /**< Nešpecifikovaná chyba. */
+	const NotFound   = 1; /**< Chyba vyvolaná pri neexistujúcej stránke. */
 
 	/**
 	 * Vytvorenie novej systémovej výnimky.
@@ -82,12 +80,9 @@ class ShakalSystemException extends ShakalException
  */
 class ShakalUserException extends ShakalException
 {
-	/// Poznámka, ktorá má minimálny vplyv na ďalší beh aplikácie.
-	const UserNotice = 0;
-	/// Varovanie pri akciách ktoré je možné napriek tomu dokončiť.
-	const UserWaring = 1;
-	/// Chyba pri vykonávaní akcie.
-	const UserError  = 2;
+	const UserNotice = 0; /**< Poznámka, ktorá má minimálny vplyv na ďalší beh aplikácie. */
+	const UserWaring = 1; /**< Varovanie pri akciách ktoré je možné napriek tomu dokončiť. */
+	const UserError  = 2; /**< Chyba pri vykonávaní akcie. */
 
 	/**
 	 * Vytvorenie novej užívateľskej výnimky.
@@ -126,7 +121,9 @@ class ShakalSqlException extends ShakalException
 		parent::__construct($msg, $code, $query);
 	}
 
-	/// Dotaz, pri ktorom nastala výnimka.
+	/**
+	 * Dotaz, pri ktorom nastala výnimka.
+	 */
 	public function query()
 	{
 		return parent::data();
