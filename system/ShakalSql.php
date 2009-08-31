@@ -808,6 +808,8 @@ class ShakalSqlSelect
 		array_push($this->_join, $type . ' JOIN ' . $tableExpr . $podmienka);
 	}
 
+	/// \name Spájanie tabuliek
+	//@{
 	/**
 	 * Spojenie s inou tabuľkou pri podmienke \a cond. Argument \a columns
 	 * je zoznam stĺpcov, ktoré sa z tejto tabuľky vyberú. Stĺpce aj tabuľka
@@ -948,6 +950,7 @@ class ShakalSqlSelect
 		$this->_joinPriv('FULL OUTER', $table, $column, $columns, true);
 		return $this;
 	}
+	//@}
 
 	/**
 	 * Pridanie výberu stĺpcov nepatriacich žiadnej tabuľke.

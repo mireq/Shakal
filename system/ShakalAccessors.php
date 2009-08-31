@@ -67,6 +67,8 @@ class ShakalRegistry implements ArrayAccess
 	{
 	}
 
+	/// \name Objektový prístup k premenným
+	//@{
 	/**
 	 * Nastavenie premennej objektovým prístupom.
 	 *
@@ -116,7 +118,10 @@ class ShakalRegistry implements ArrayAccess
 	{
 		unset($this->_registry[$name]);
 	}
+	//@}
 
+	/// \name Prístup k premenným cez pole
+	//@{
 	/**
 	 * Nastavenie hodnoty atribútu pomocou poľa.
 	 *
@@ -177,7 +182,10 @@ class ShakalRegistry implements ArrayAccess
 	{
 		unset($this->$name);
 	}
+	//@}
 
+	/// \name Prístup k premenným pomocou statického poľa
+	//@{
 	/**
 	 * Statická metóda pre nastavenie hodnoty atribútu.
 	 *
@@ -234,6 +242,7 @@ class ShakalRegistry implements ArrayAccess
 	{
 		unset(self::getInstance()->$name);
 	}
+	//@}
 }
 
 ?>

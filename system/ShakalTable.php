@@ -99,6 +99,8 @@ abstract class ShakalTableCell
 		return $this->_headerCell;
 	}
 
+	///\name Správa atribútov
+	//@{
 	/**
      * Nastavenie atribútu bunky.
 	 */
@@ -130,6 +132,7 @@ abstract class ShakalTableCell
 	{
 		unset($this->_attributes[$name]);
 	}
+	//@}
 }
 //END   --- ShakalTableCell ---
 
@@ -219,6 +222,8 @@ abstract class ShakalTableRow
 		$this->_attributes[$name] = $value;
 	}
 
+	///\name Správa atribútov
+	//@{
 	/**
 	 * Získanie atribútu riadku.
 	 */
@@ -242,6 +247,7 @@ abstract class ShakalTableRow
 	{
 		unset($this->_attributes[$name]);
 	}
+	//@}
 }
 //END   --- ShakalTableRow ---
 
@@ -372,6 +378,8 @@ abstract class ShakalTable
 		}
 	}
 
+	///\name Správa atribútov
+	//@{
 	/**
 	 * Nastavenie atribútu tabuľky.
 	 */
@@ -403,6 +411,7 @@ abstract class ShakalTable
 	{
 		unset($this->_attributes[$name]);
 	}
+	//@}
 }
 //END   --- ShakalTable ---
 
