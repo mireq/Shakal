@@ -114,6 +114,22 @@ abstract class ShakalTableCell
 	{
 		return $this->_attributes[$name];
 	}
+
+	/**
+	 * Ak je atribút nastavený vráti \e true.
+	 */
+	public function __isset($name)
+	{
+		return isset($this->_attributes[$name]);
+	}
+
+	/**
+	 * Zrušenie hodnoty atribútu.
+	 */
+	public function __unset($name)
+	{
+		unset($this->_attributes[$name]);
+	}
 }
 //END   --- ShakalTableCell ---
 
@@ -209,6 +225,22 @@ abstract class ShakalTableRow
 	public function __get($name)
 	{
 		return $this->_attributes[$name];
+	}
+
+	/**
+	 * Ak je atribút nastavený vráti \e true.
+	 */
+	public function __isset($name)
+	{
+		return isset($this->_attributes[$name]);
+	}
+
+	/**
+	 * Zrušenie hodnoty atribútu.
+	 */
+	public function __unset($name)
+	{
+		unset($this->_attributes[$name]);
 	}
 }
 //END   --- ShakalTableRow ---
@@ -354,6 +386,22 @@ abstract class ShakalTable
 	public function __get($name)
 	{
 		return $this->_attributes[$name];
+	}
+
+	/**
+	 * Ak je atribút nastavený vráti \e true.
+	 */
+	public function __isset($name)
+	{
+		return isset($this->_attributes[$name]);
+	}
+
+	/**
+	 * Zrušenie hodnoty atribútu.
+	 */
+	public function __unset($name)
+	{
+		unset($this->_attributes[$name]);
 	}
 }
 //END   --- ShakalTable ---
