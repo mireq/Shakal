@@ -4,6 +4,7 @@
  * \author Miroslav Bendík
  * \brief Výnimky používane v Shakal CMS.
  */
+namespace Shakal;
 
 /**
  * \brief Základná výnimka v Shakal CMS.
@@ -14,7 +15,7 @@
  * navyše ple \e data používané pre rozšírené informácie
  * o chybe, ktorá nastala.
  */
-abstract class ShakalException extends Exception
+abstract class Exception extends \Exception
 {
 	private $data;
 
@@ -50,7 +51,7 @@ abstract class ShakalException extends Exception
  * Táto výnimka má za následok zastavenie behu aplikácie.
  * Užívateľa o chybe informuje samostatnou stránkou.
  */
-class ShakalSystemException extends ShakalException
+class SystemException extends Exception
 {
 	const OtherError = 0; /**< Nešpecifikovaná chyba. */
 	const NotFound   = 1; /**< Chyba vyvolaná pri neexistujúcej stránke. */
@@ -78,7 +79,7 @@ class ShakalSystemException extends ShakalException
  * Vyvolanie tejto výnimky spôsobí jej zobrazenie
  * na stránke, ktorú navštívil užívateľ.
  */
-class ShakalUserException extends ShakalException
+class UserException extends Exception
 {
 	const UserNotice = 0; /**< Poznámka, ktorá má minimálny vplyv na ďalší beh aplikácie. */
 	const UserWaring = 1; /**< Varovanie pri akciách ktoré je možné napriek tomu dokončiť. */
@@ -107,7 +108,7 @@ class ShakalUserException extends ShakalException
  *
  * Výnimka pri spúšťaní SQL príkazu.
  */
-class ShakalSqlException extends ShakalException
+class SqlException extends Exception
 {
 	/**
 	 * Vytvorenie SQL výnimky.

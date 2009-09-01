@@ -4,8 +4,9 @@
  * \author Miroslav Bendík
  * \brief Abstraktné rozhranie pre tvorbu tabuliek.
  */
+namespace Shakal;
 
-//BEGIN --- ShakalTableCell ---
+//BEGIN --- TableCell ---
 /**
  * \brief Bunka tabuľky.
  * \ingroup Shakal_Table
@@ -14,7 +15,7 @@
  * Táto abstraktná trieda reprezentuje bunku v tabuľke.
  * Každej bunke je možné priradiť vlastné atribúty.
  */
-abstract class ShakalTableCell
+abstract class TableCell
 {
 	protected $_data; /**< Dáta bunky tabuľky. */
 	protected $_headerCell = false; /**< Informácia o tom, či je bunka hlavičkou. */
@@ -134,18 +135,18 @@ abstract class ShakalTableCell
 	}
 	//@}
 }
-//END   --- ShakalTableCell ---
+//END   --- TableCell ---
 
-//BEGIN --- ShakalTableRow ---
+//BEGIN --- TableRow ---
 /**
  * \brief Riadok tabuľky.
  * \ingroup Shakal_Table
  * \licenses \gpl
  *
  * Táto abstraktná trieda reprezentuje riadok tabuľky. Jeho atribútý
- * je možné nastavovať podobne ako u ShakalTableCell.
+ * je možné nastavovať podobne ako u TableCell.
  */
-abstract class ShakalTableRow
+abstract class TableRow
 {
 	protected $_cells      = array(); /**< Pole buniek riadku tabuľky. */
 	protected $_attributes = array(); /**< Zoznam atribútov riadku. */
@@ -153,7 +154,7 @@ abstract class ShakalTableRow
 	/**
 	 * Renderovanie riadku tabuľky a jeho buniek.
 	 *
-	 * \sa ShakalTableCell::render
+	 * \sa TableCell::render
 	 */
 	public abstract function render();
 
@@ -191,7 +192,7 @@ abstract class ShakalTableRow
 	/**
 	 * Nastavenie dát riadku.
 	 *
-	 * Dáta sú vo forme poľa. Jeho položky sú inštanciami ShakalTableCell.
+	 * Dáta sú vo forme poľa. Jeho položky sú inštanciami TableCell.
 	 * Chybné položky sú ignorované.
 	 *
 	 * \sa data
@@ -208,7 +209,7 @@ abstract class ShakalTableRow
 	 */
 	public function addCell($cell)
 	{
-		if (!is_object($cell) || !$cell instanceof ShakalTableCell) {
+		if (!is_object($cell) || !$cell instanceof TableCell) {
 			$cell = $this->newTableCell($cell);
 		}
 		array_push($this->_cells, $cell);
@@ -249,19 +250,19 @@ abstract class ShakalTableRow
 	}
 	//@}
 }
-//END   --- ShakalTableRow ---
+//END   --- TableRow ---
 
-//BEGIN --- ShakalTable ---
+//BEGIN --- Table ---
 /**
  * \brief Tabuľka.
  * \ingroup Shakal_Table
  * \licenses \gpl
  *
- * Úlohou abstraktnej triedy ShakalTable je uchovávať riadky tabuľky.
+ * Úlohou abstraktnej triedy Table je uchovávať riadky tabuľky.
  * Pre použitie tejto triedy je nutné implementovať abstraktné funkcie
  * render a newTableRow.
  */
-abstract class ShakalTable
+abstract class Table
 {
 	protected $_rows       = array(); /**< Zoznam riadkov tabuľky. */
 	protected $_headerRows = array(); /**< Zoznam riadkov hlavičky tabuľky. */
@@ -271,7 +272,7 @@ abstract class ShakalTable
 	/**
 	 * Vyrenderovanie tabuľky a jej riadkov.
 	 *
-	 * \sa ShakalTableRow::render
+	 * \sa TableRow::render
 	 */
 	public abstract function render();
 	/**
@@ -354,14 +355,14 @@ abstract class ShakalTable
 	/**
 	 * Pridanie riadku tabuľky.
 	 *
-	 * V prípade, že argument \a row nie je inštanciu ShakalTableRow
+	 * V prípade, že argument \a row nie je inštanciu TableRow
 	 * bude automaticky na tento typ konvertovaný.
 	 *
 	 * \sa addHeaderRow
 	 */
 	public function addRow($row)
 	{
-		if (!is_object($row) || !$row instanceof ShakalTableRow) {
+		if (!is_object($row) || !$row instanceof TableRow) {
 			$row = $this->newTableRow($row);
 		}
 	}
@@ -373,7 +374,7 @@ abstract class ShakalTable
 	 */
 	public function addHeaderRow($row)
 	{
-		if (!is_object($row) || !$row instanceof ShakalTableRow) {
+		if (!is_object($row) || !$row instanceof TableRow) {
 			$row = $this->newTableRow($row);
 		}
 	}
@@ -413,7 +414,7 @@ abstract class ShakalTable
 	}
 	//@}
 }
-//END   --- ShakalTable ---
+//END   --- Table ---
 
 
 ?>

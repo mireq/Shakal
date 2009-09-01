@@ -5,29 +5,31 @@
  * \brief Prístup k globálne dostupným dátam.
  */
 
+namespace Shakal;
+
 /**
  * \brief Register dát dostupných globálne v celej aplikácii.
  * \ingroup Shakal_Globals
  * \licenses \gpl
  *
- * Pomocou ShakalRegistry je možné pristupovať k dátam ako je konfigurácia,
+ * Pomocou Registry je možné pristupovať k dátam ako je konfigurácia,
  * medzi modulmi zdieľané dáta a pod. Prístup k dátam je možný pomocou statických
  * metód, alebo získaním inštancie (getInstance) a prácou s ňou. Trieda je
  * singleton.
  *
  * Prístup cez statické metódy:
  * \code
- * ShakalRegistry::set('premenna', 'hodnota');
- * $premenna = ShakalRegistry::get('premenna');
- * if (ShakalRegistry::isRegistred('premenna')) {
+ * Registry::set('premenna', 'hodnota');
+ * $premenna = Registry::get('premenna');
+ * if (Registry::isRegistred('premenna')) {
  *     // ...
  * }
- * ShakalRegistry::unregister('premenna');
+ * Registry::unregister('premenna');
  * \endcode
  *
  * Prístup cez pole:
  * \code
- * $registry = ShakalRegistry::getInstance();
+ * $registry = Registry::getInstance();
  * $registry['premenna'] = 'hodnota';
  * $premenna = $registry['premenna'];
  * if (isset($registry['premenna'])) {
@@ -38,7 +40,7 @@
  *
  * Prístup cez objekt:
  * \code
- * $registry = ShakalRegistry::getInstance();
+ * $registry = Registry::getInstance();
  * $registry->premenna = 'hodnota';
  * $premenna = $registry->premenna;
  * if (isset($registry->premenna)) {
@@ -47,13 +49,13 @@
  * unset($registry->premenna);
  * \endcode
  */
-class ShakalRegistry implements ArrayAccess
+class Registry implements \ArrayAccess
 {
 	private static $instance = null;
 	private $_registry = array();
 
 	/**
-	 * Získanie inštancie ShakalRegistry (singleton).
+	 * Získanie inštancie Registry (singleton).
 	 */
 	public static function &getInstance()
 	{
@@ -73,7 +75,7 @@ class ShakalRegistry implements ArrayAccess
 	 * Nastavenie premennej objektovým prístupom.
 	 *
 	 * \code
-	 * $registry = ShakalRegistry::getInstance();
+	 * $registry = Registry::getInstance();
 	 * $registry->premenna = 'hodnota';
 	 * \endcode
 	 */
@@ -86,7 +88,7 @@ class ShakalRegistry implements ArrayAccess
 	 * Získanie premennej objektovým prístupom.
 	 *
 	 * \code
-	 * $premenna = ShakalRegistry::getInstance()->premenna;
+	 * $premenna = Registry::getInstance()->premenna;
 	 * \endcode
 	 */
 	public function __get($name)
@@ -98,7 +100,7 @@ class ShakalRegistry implements ArrayAccess
 	 * Ak je nastavená hodnota atribútu s názvom \a name vráti \e true.
 	 *
 	 * \code
-	 * if (isset(ShakalRegistry::getInstance()->premenna))
+	 * if (isset(Registry::getInstance()->premenna))
 	 *     // ...
 	 * \endcode
 	 */
@@ -111,7 +113,7 @@ class ShakalRegistry implements ArrayAccess
 	 * Vymazanie atribútu s názvom \a name.
 	 *
 	 * \code
-	 * unset(ShakalRegistry::getInstance()->premenna);
+	 * unset(Registry::getInstance()->premenna);
 	 * \endcode
 	 */
 	public function __unset($name)
@@ -126,7 +128,7 @@ class ShakalRegistry implements ArrayAccess
 	 * Nastavenie hodnoty atribútu pomocou poľa.
 	 *
 	 * \code
-	 * $registry = ShakalRegistry::getInstance();
+	 * $registry = Registry::getInstance();
 	 * $registry['premenna'] = 'hodnota';
 	 * \endcode
 	 *
@@ -141,7 +143,7 @@ class ShakalRegistry implements ArrayAccess
 	 * Zistenie hodnoty atribútu pomocou poľa.
 	 *
 	 * \code
-	 * $registry = ShakalRegistry::getInstance();
+	 * $registry = Registry::getInstance();
 	 * $premenna = $registry['premenna'];
 	 * \endcode
 	 *
@@ -156,7 +158,7 @@ class ShakalRegistry implements ArrayAccess
 	 * Zistenie existencie atribútu s indexom \a name.
 	 *
 	 * \code
-	 * $registry = ShakalRegistry::getInstance();
+	 * $registry = Registry::getInstance();
 	 * if (isset($registry['premenna']))
 	 *     // ...
 	 * \endcode
@@ -172,7 +174,7 @@ class ShakalRegistry implements ArrayAccess
 	 * Zrušenie atribútu s indexom \a name.
 	 *
 	 * \code
-	 * $registry = ShakalRegistry::getInstance();
+	 * $registry = Registry::getInstance();
 	 * unset($registry['premenna']);
 	 * \endcode
 	 *
@@ -190,7 +192,7 @@ class ShakalRegistry implements ArrayAccess
 	 * Statická metóda pre nastavenie hodnoty atribútu.
 	 *
 	 * \code
-	 * ShakalRegistry::set('premenna', 'hodnota');
+	 * Registry::set('premenna', 'hodnota');
 	 * \endcode
 	 *
 	 * \sa __set
@@ -204,7 +206,7 @@ class ShakalRegistry implements ArrayAccess
 	 * Statická metóda pre získanie hodnoty atribútu.
 	 *
 	 * \code
-	 * $premenna = ShakalRegistry::get('premenna');
+	 * $premenna = Registry::get('premenna');
 	 * \endcode
 	 *
 	 * \sa __get
@@ -218,7 +220,7 @@ class ShakalRegistry implements ArrayAccess
 	 * Statická metóda pre zistenie, či je atribút nastavený.
 	 *
 	 * \code
-	 * if (ShakalRegistry::isRegistred('premenna'))
+	 * if (Registry::isRegistred('premenna'))
 	 *     // ...
 	 * \endcode
 	 *
@@ -233,7 +235,7 @@ class ShakalRegistry implements ArrayAccess
 	 * Zrušenie atribútu s názvom \a name.
 	 *
 	 * \code
-	 * ShakalRegistry::unregister('premenna');
+	 * Registry::unregister('premenna');
 	 * \endcode
 	 *
 	 * \sa __unset

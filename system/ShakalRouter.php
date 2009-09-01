@@ -1,13 +1,11 @@
 <?php
+namespace Shakal;
 
-/**
- * Dokumentácia.
- */
-class ShakalRouter
+class Router
 {
 	public static function connect($url, $controller)
 	{
-		// ShakalRouter::connect("/stranka/*", array('controller' => 'stranka', 'action' => 'index'))
+		// Router::connect("/stranka/*", array('controller' => 'stranka', 'action' => 'index'))
 	}
 };
 

@@ -47,10 +47,13 @@ h3 {
     font-size : 125%;
   }
 
+div.groupHeader {
+    font-size : 110%;
+    color : #124;
+    font-weight : bold;
+}
+
 /* Link */
-
-
-
 
 a:link {
     color: #0830A2;

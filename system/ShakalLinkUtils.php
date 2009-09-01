@@ -4,6 +4,7 @@
  * \author Miroslav Bendík
  * \brief Nástroje na prácu s cestami a odkazmi v Shakal CMS.
  */
+namespace Shakal;
 
 /**
  * \brief Trieda poskytujúca jednotný prístup k adresárom na rôznych platformách.
@@ -14,7 +15,7 @@
  * Cesta sa rozdelí na jednotlivé zložky a je možné kontrolovať prístup
  * k nadredeným položkám a mimo základného adresára s aplikáciou.
  */
-class ShakalPath
+class Path
 {
 	private $_pathArr = array();
 	private $_valid    = true;
@@ -53,11 +54,23 @@ class ShakalPath
 
 	/**
 	 * Táto funkcia vráti \e true ak cesta nevystupuje mimo adresárovú štruktúru
-	 * (tj. nezačína sa nadradeným adresárom '..').
+	 * (tj. nezačína sa nadradeným adresárom '..', alebo koreňovým adresárom).
 	 */
 	public function isValid()
 	{
 		return $this->_valid;
+	}
+
+	/**
+	 * Funkcia vráti \e true, ak je cesta lokálna (tj. nezačína v koreňovom
+	 * adresári).
+	 */
+	public function isLocal()
+	{
+		if (count($this->_pathArr) > 0 && $this->_pathArr[0] === '')
+			return false;
+		else
+			return true;
 	}
 
 	/**
@@ -85,12 +98,16 @@ class ShakalPath
 			$directories = explode('/', $path);
 
 		foreach ($directories as $dir) {
-			if ($dir === '.' || $dir === '') {
+			if ($dir === '.') {
 				// Nič sa nedeje
 			}
 			elseif ($dir === '..') {
 				// O priečinok vyššie
 				$this->pop();
+			}
+			elseif ($dir === '' && count($this->_pathArr) === 0) {
+				array_push($this->_pathArr, $dir);
+				$this->_valid = false;
 			}
 			else {
 				array_push($this->_pathArr, $dir);
@@ -150,6 +167,26 @@ class ShakalPath
 	public function absoluteSysPath()
 	{
 		return self::toSystemPath(SITE_PATH.implode('/', $this->_pathArr));
+	}
+}
+
+///@todo Napísať Link
+class Link
+{
+	private $_path = null;
+
+	public function __construct($path = null, array $vars = array(), array $tempVars = array())
+	{
+		if (!is_null($path))
+			$this->setPath($path);
+	}
+
+	public function setPath($path)
+	{
+		if ($path instanceof Path)
+			$this->_path = $path;
+		else
+			$this->_path = new Path($path);
 	}
 }
 

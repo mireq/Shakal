@@ -4,6 +4,7 @@
  * \author Miroslav Bendík
  * \brief Rozhranie pre prístup k databáze.
  */
+namespace Shakal;
 
 /**
  * \brief SQL výraz.
@@ -17,12 +18,12 @@
  * konštruktoru.
  *
  * \code
- * new ShakalSqlExpr('INSERT INTO #__tabulka SET x = %1, y = %2 WHERE z = %1',
+ * new SqlExpr('INSERT INTO #__tabulka SET x = %1, y = %2 WHERE z = %1',
  *                    $prvyArgument,
  *                    $druhyArgument);
  * \endcode
  */
-class ShakalSqlExpr
+class SqlExpr
 {
 	public $query; /**< Neupravený SQL výraz. */
 	public $args;  /**< Zoznam premenných vyskytujúcich sa vo výraze. */
@@ -53,7 +54,7 @@ class ShakalSqlExpr
  * Táto trieda sa používa vo výnimočných prípadoch, keď je výraz nesmie byť
  * modifikovaný.
  */
-class ShakalRawSqlExpr
+class RawSqlExpr
 {
 	public $query; /**< SQL výraz. */
 
@@ -75,7 +76,7 @@ class ShakalRawSqlExpr
  * Pomocou abstraktnej tejto triedy je možné pristupovať k výsledkom volania SQL
  * príkazov nezávisle na použitej databáze.
  */
-abstract class ShakalSqlResult
+abstract class SqlResult
 {
 	const Assoc = 0; /**< Vrátenie SQL výsledku ako asociatívne pole s názvom stĺpca ako kľúč poľa. */
 	const Num   = 1; /**< Vrátenie SQL výsledku ako homogénne pole. */
@@ -104,7 +105,7 @@ abstract class ShakalSqlResult
 	 * <table>
 	 *   <tr><th>Typ</th><th>Popis</th></tr>
 	 *   <tr>
-	 *     <td>ShakalSqlResult::Assoc</td>
+	 *     <td>SqlResult::Assoc</td>
 	 *     <td>
 	 * Funkcia vráti výsledok v podobe asociatívneho poľa.
 	 *
@@ -115,7 +116,7 @@ pole[text] = 'abc'\endverbatim
 	 *     </td>
 	 *   </tr>
 	 *   <tr>
-	 *     <td>ShakalSqlResult::Num</td>
+	 *     <td>SqlResult::Num</td>
 	 *     <td>
 	 * Funkcia vráti výsledok vo forme homogénneho poľa.
 	 *
@@ -126,7 +127,7 @@ pole[1] = 'abc'\endverbatim
 	 *     </td>
 	 *   </tr>
 	 *   <tr>
-	 *     <td>ShakalSqlResult::Both</td>
+	 *     <td>SqlResult::Both</td>
 	 *     <td>
 	 * Pri volaní s týmto typom vráti funkcia asociatívne pole a zároveň homogénne pole.
 	 * \verbatim
@@ -277,7 +278,7 @@ pole[text] = 'abc'\endverbatim
  * \par
  * Táto trieda sa používa na získanie výsledkov MySQL dotazu.
  */
-class ShakalMySqlResult extends ShakalSqlResult
+class MySqlResult extends SqlResult
 {
 	/**
 	 * \reimp
@@ -347,7 +348,7 @@ class ShakalMySqlResult extends ShakalSqlResult
  * Každý druh SQL databázy používa iný druh prístupu k nej. Táto trieda slúži
  * na zjednotenie prístupu k SQL databázam.
  */
-class ShakalSql
+class SqlDb
 {
 	const MySQL = 1; /**< Typ databázy \c MySQL. */
 
@@ -358,7 +359,7 @@ class ShakalSql
 	/**
 	 * Vytvorenie nového spojenia s databázou.
 	 *
-	 * Novú inštanciu ShakalSql je možné vytvoriť buď bez pripojenia k databáze
+	 * Novú inštanciu SqlDb je možné vytvoriť buď bez pripojenia k databáze
 	 * (konštruktor sa volá bez parametrov), alebo so zavoalním konštruktora
 	 * s identickými parametrami, ako má metóda connect.
 	 */
@@ -414,7 +415,7 @@ class ShakalSql
 	/**
 	 * Pripojenie k SQL databáze.
 	 *
-	 * \param db_type Typ databázy, napr ShakalSql::MySQL.
+	 * \param db_type Typ databázy, napr SqlDb::MySQL.
 	 * \param db_server Databázový server, ku ktorému sa chceme pripojiť.
 	 * \param db_username Meno užívateľa pripájajúceho sa k databáze.
 	 * \param db_password Heslo pre pripojenie k databázovému serveru.
@@ -458,7 +459,7 @@ class ShakalSql
 
 	/**
 	 * Statická metóda pracujúca ako quote bez nutnosti vytvorenia inštancie
-	 * ShakalSql.
+	 * SqlDb.
 	 */
 	public static function quoteStatic($var, $dbType)
 	{
@@ -505,7 +506,7 @@ class ShakalSql
 	}
 
 	/**
-	 * Funkcia funguje rovnako, ako prepareQuery, ale bez vytvorenia inštancie ShakalSql.
+	 * Funkcia funguje rovnako, ako prepareQuery, ale bez vytvorenia inštancie SqlDb.
 	 */
 	public static function prepareQueryStatic($query, $dbPrefix, $dbType, array $args = array())
 	{
@@ -527,7 +528,7 @@ class ShakalSql
 
 
 	/**
-	 * Funkcia prevedie  string začínajúci aj končiaci znakom '#' na ShakalSqlExpr.
+	 * Funkcia prevedie  string začínajúci aj končiaci znakom '#' na SqlExpr.
 	 *
 	 * \internal
 	 */
@@ -536,23 +537,23 @@ class ShakalSql
 		if (strlen($str) > 2
 		    && $str[0] === '#'
 		    && $str[strlen($str) - 1] === '#') {
-			return new ShakalSqlExpr(substr($str, 1, strlen($str) - 2));
+			return new SqlExpr(substr($str, 1, strlen($str) - 2));
 		}
 		else
 			return $str;
 	}
 
 	/**
-	 * Prevod výrazu typu SakalSqlExpr, ShakalRawSqlExpr, alebo reťazca na
+	 * Prevod výrazu typu SakalSqlExpr, RawSqlExpr, alebo reťazca na
 	 * reťazec vhodný pre databázu.
 	 *
 	 * \internal
 	 */
 	public static function renderExpressionStatic($expr, $dbPrefix, $dbType)
 	{
-		if ($expr instanceof ShakalSqlExpr)
+		if ($expr instanceof SqlExpr)
 			return self::prepareQueryStatic($expr->query, $dbPrefix, $dbType, $expr->args);
-		elseif ($expr instanceof ShakalRawSqlExpr)
+		elseif ($expr instanceof RawSqlExpr)
 			return $expr->query;
 		else
 			return self::replacePreifxStatic($expr, $dbPrefix, $dbType);
@@ -577,14 +578,14 @@ class ShakalSql
 		if (is_string($query)) {
 			$args = func_get_args();
 			array_shift($args);
-			$expr = new ShakalSqlExpr($query, $args);
+			$expr = new SqlExpr($query, $args);
 			$query = $expr;
 		}
 		return $this->queryRaw($this->renderExpressionStatic($query, $dbPrefix, $dbType));
 	}
 
 	/**
-	 * \throw ShakalSqlException
+	 * \throw SqlException
 	 *
 	 * Spustenie dotazu a vrátenie výsledku z databázového serveru.
 	 */
@@ -595,9 +596,9 @@ class ShakalSql
 			$error = mysql_error($this->_link);
 			$errno = mysql_errno($this->_link);
 			$this->rollback();
-			throw new ShakalSqlException($errno, $error, $query);
+			throw new SqlException($errno, $error, $query);
 		}
-		return new ShakalMySqlResult($result, $this);
+		return new MySqlResult($result, $this);
 	}
 
 	/**
@@ -625,11 +626,11 @@ class ShakalSql
 	}
 
 	/**
-	 * Vytvorenie a vrátenie objektu ShakalSqlSelect.
+	 * Vytvorenie a vrátenie objektu SqlSelect.
 	 */
 	public function select()
 	{
-		return new ShakalSqlSelect($this);
+		return new SqlSelect($this);
 	}
 }
 
@@ -638,10 +639,10 @@ class ShakalSql
  * \ingroup Shakal_Sql
  *
  * \par
- * Trieda ShakalSqlSelect umožňuje zostrojenie SQL výrazu nezávislého na duhu
+ * Trieda SqlSelect umožňuje zostrojenie SQL výrazu nezávislého na duhu
  * databázy.
  */
-class ShakalSqlSelect
+class SqlSelect
 {
 
 	private $_distinct = '';
@@ -663,8 +664,8 @@ class ShakalSqlSelect
 	 *
 	 * \param sql Spojenie, ku ktorému sa select vzťahuje.
 	 *
-	 * Inštanciu ShakalSqlSelect je možné vytvoriť priamo zo spojenia s databázou
-	 * volaním ShakalSql::select().
+	 * Inštanciu SqlSelect je možné vytvoriť priamo zo spojenia s databázou
+	 * volaním SqlDb::select().
 	 *
 	 * \code
 	 * $result = $db
@@ -673,7 +674,7 @@ class ShakalSqlSelect
 	 *           ->exec();
 	 * \endcode
 	 */
-	public function __construct(ShakalSql $sql = null)
+	public function __construct(SqlDb $sql = null)
 	{
 		$this->_sql = $sql;
 		if (!is_null($sql))
@@ -706,7 +707,7 @@ class ShakalSqlSelect
 	 *
 	 * Výsledkom nasledujúceho kódu:
 	 * \code
-	 * $select = new ShakalSqlSelect;
+	 * $select = new SqlSelect;
 	 * $select->from('#__tabulka', array('a'));
 	 * $select->from('#__tabulka', 'b', 'c');
 	 * \endcode
@@ -717,7 +718,7 @@ class ShakalSqlSelect
 	 *
 	 * Nasledujúci kód:
 	 * \code
-	 * $select = new ShakalSqlSelect;
+	 * $select = new SqlSelect;
 	 * $select->from(array('tabulka_alias' => '#__tabulka'), 'a');
 	 * $select->from('#__tabulka', array('stlpec_alias' => 'b'));
 	 * echo $select;
@@ -734,13 +735,13 @@ class ShakalSqlSelect
 				return $this;
 
 			list($alias, $name) = each($table);
-			$name = ShakalSql::renderExpressionStatic($name, $this->_dbPrefix, $this->_dbType);
+			$name = SqlDb::renderExpressionStatic($name, $this->_dbPrefix, $this->_dbType);
 			if (is_numeric($alias))
 				$alias = $name;
 		}
 		// Tabuľka bez aliasu
 		else {
-			$name  = ShakalSql::renderExpressionStatic($table, $this->_dbPrefix, $this->_dbType);
+			$name  = SqlDb::renderExpressionStatic($table, $this->_dbPrefix, $this->_dbType);
 			$alias = $name;
 		}
 		$this->_from[$alias] = $name;
@@ -780,7 +781,7 @@ class ShakalSqlSelect
 			list($tableAlias, $tableName) = each($table);
 		else
 			$tableName  = $table;
-		$tableName = ShakalSql::renderExpressionStatic($tableName, $this->_dbPrefix, $this->_dbType);
+		$tableName = SqlDb::renderExpressionStatic($tableName, $this->_dbPrefix, $this->_dbType);
 		if (is_null($tableAlias))
 			$tableAlias = $tableName;
 		$tableExpr = '';
@@ -793,15 +794,15 @@ class ShakalSqlSelect
 		if ($using) {
 			if (is_array($cond)) {
 				for ($i = 0; $i < count($cond); ++$i)
-					$cond[$i] = ShakalSql::renderExpressionStatic($cond[$i], $this->_dbPrefix, $this->_dbType);
+					$cond[$i] = SqlDb::renderExpressionStatic($cond[$i], $this->_dbPrefix, $this->_dbType);
 				$podmienka = ' USING (' . implode(', ', $cond) . ')';
 			}
 			else {
-				$podmienka = ' USING (' . ShakalSql::renderExpressionStatic($cond, $this->_dbPrefix, $this->_dbType) . ')';
+				$podmienka = ' USING (' . SqlDb::renderExpressionStatic($cond, $this->_dbPrefix, $this->_dbType) . ')';
 			}
 		}
 		elseif ($type != 'CROSS' && $type != 'NATURAL') {
-			$podmienka = ' ON ' . ShakalSql::renderExpressionStatic($cond, $this->_dbPrefix, $this->_dbType);
+			$podmienka = ' ON ' . SqlDb::renderExpressionStatic($cond, $this->_dbPrefix, $this->_dbType);
 		}
 		$this->_addFields($tableName, $tableAlias, $columns);
 
@@ -819,7 +820,7 @@ class ShakalSqlSelect
 	 *
 	 * Výsledkom tohto kódu:
 	 * \code
-	 * $select = new ShakalSqlSelect;
+	 * $select = new SqlSelect;
 	 * $select->from('#__tabulka_1', 'a');
 	 * $select->join('#__tabulka_2', '#__tabulka_1.a = #__tabulka_2.x', array('b', 'c'));
 	 * echo $select;
@@ -900,7 +901,7 @@ class ShakalSqlSelect
 	 *
 	 * Výsledkom kódu:
 	 * \code
-	 * $select = new ShakalSqlSelect;
+	 * $select = new SqlSelect;
 	 * $select->from('#__tabulka_1', 'a');
 	 * $select->joinUsing('#__tabulka_2', array('x', 'y'), 'b');
 	 * echo $select;
@@ -959,7 +960,7 @@ class ShakalSqlSelect
 	 * v žiadnej z vyberaných tabuliek napr. "NOW()". Pri tomto výraze sa
 	 * automaticky predpokladá, že je SQL výraz a preto počiatočný a koncový
 	 * znak reťazca nemusia byť '#'. Okrem reťazcov sú samozrejme povolené
-	 * hodnoty ShakalSqlExpr a ShakalRawSqlExpr.
+	 * hodnoty SqlExpr a RawSqlExpr.
 	 *
 	 * \param columns Zoznam vyberaných stĺpcov. Stĺpce môžu mať svoje aliasy
 	 *                definované kľúčom poľa poľom.
@@ -971,7 +972,7 @@ class ShakalSqlSelect
 			$columns = func_get_args();
 		foreach ($columns as $key => $val) {
 			if (is_string($columns[$key]))
-				$columns[$key] = new ShakalSqlExpr($columns[$key]);
+				$columns[$key] = new SqlExpr($columns[$key]);
 		}
 		$this->_addFields(null, null, $columns);
 		return $this;
@@ -988,7 +989,7 @@ class ShakalSqlSelect
 	 *
 	 * Nasledujúci kód:
 	 * \code
-	 * $select = new ShakalSqlSelect;
+	 * $select = new SqlSelect;
 	 * $select->from('#__tabulka', 'a');
 	 * $select->where('b = %1', 'text');
 	 * echo $select;
@@ -998,7 +999,7 @@ class ShakalSqlSelect
 	 */
 	public function &where($cond)
 	{
-		if ($cond instanceof ShakalSqlExpr || $cond instanceof ShakalRawSqlExpr) {
+		if ($cond instanceof SqlExpr || $cond instanceof RawSqlExpr) {
 			array_push($this->_where, $cond);
 			return $this;
 		}
@@ -1007,7 +1008,7 @@ class ShakalSqlSelect
 		array_shift($args);
 		if (isset($args[0]) && is_array($args[0]))
 			$args = $args[0];
-		array_push($this->_where, new ShakalSqlExpr($cond, $args));
+		array_push($this->_where, new SqlExpr($cond, $args));
 		return $this;
 	}
 
@@ -1020,7 +1021,7 @@ class ShakalSqlSelect
 	 *
 	 * Výstupom kódu:
 	 * \code
-	 * $select = new ShakalSqlSelect;
+	 * $select = new SqlSelect;
 	 * $select->from('#__tabulka', '#SUM(a)#');
 	 * $select->group('b', 'c');
 	 * echo $select;
@@ -1050,7 +1051,7 @@ class ShakalSqlSelect
 		array_shift($args);
 		if (isset($args[0]) && is_array($args[0]))
 			$args = $args[0];
-		array_push($this->_having, new ShakalSqlExpr($cond, $args));
+		array_push($this->_having, new SqlExpr($cond, $args));
 		return $this;
 	}
 
@@ -1105,10 +1106,10 @@ class ShakalSqlSelect
 					$aliasStr = ' AS ' . $field[0];
 
 				if (is_string($field[1]))
-					$field[1] = ShakalSql::toSqlExpression($field[1]);
+					$field[1] = SqlDb::toSqlExpression($field[1]);
 
-				if ($field[1] instanceof ShakalSqlExpr || $field[1] instanceof ShakalRawSqlExpr)
-					$fieldRend = ShakalSql::renderExpressionStatic($field[1], $this->_dbPrefix, $this->_dbType);
+				if ($field[1] instanceof SqlExpr || $field[1] instanceof RawSqlExpr)
+					$fieldRend = SqlDb::renderExpressionStatic($field[1], $this->_dbPrefix, $this->_dbType);
 				else
 					$fieldRend = $field[1];
 
@@ -1153,7 +1154,7 @@ class ShakalSqlSelect
 
 		$whereOut = array();
 		foreach ($whereArr as $where) {
-			array_push($whereOut, ShakalSql::renderExpressionStatic($where, $this->_dbPrefix, $this->_dbType));
+			array_push($whereOut, SqlDb::renderExpressionStatic($where, $this->_dbPrefix, $this->_dbType));
 		}
 		return ' '.$whereStr.' '.implode(' AND ', $whereOut);
 	}
@@ -1165,7 +1166,7 @@ class ShakalSqlSelect
 
 		$fields = array();
 		foreach ($arr as $g) {
-			array_push($fields, ShakalSql::renderExpressionStatic($g, $this->_dbPrefix, $this->_dbType));
+			array_push($fields, SqlDb::renderExpressionStatic($g, $this->_dbPrefix, $this->_dbType));
 		}
 
 		return ' ' . $type . ' '.implode(', ', $fields);
@@ -1197,7 +1198,7 @@ class ShakalSqlSelect
 	}
 
 	/**
-	 * Spustenie SQL príkazu a vrátenie výsledku volania ShakalSql::queryRaw.
+	 * Spustenie SQL príkazu a vrátenie výsledku volania SqlDb::queryRaw.
 	 */
 	public function exec()
 	{
