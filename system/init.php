@@ -37,7 +37,9 @@ function shakalReadConfig()
 		closedir($confDir);
 	}
 
-	Registry::set('config', $configRegistry);
+	foreach ($configRegistry as $name => $value) {
+		ConfigRegistry::set($name, $value);
+	}
 }
 
 require(SITE_PATH.'system'.DIRECTORY_SEPARATOR.'ShakalLinkUtils.php');
@@ -47,7 +49,4 @@ require(Path::toSystemPath(SITE_PATH.'system/ShakalRouter.php'));
 require(Path::toSystemPath(SITE_PATH.'system/ShakalTable.php'));
 
 shakalReadConfig();
-
-require(Path::toSystemPath(SITE_PATH.'system/ShakalSql.php'));
-
 ?>

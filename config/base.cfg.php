@@ -1,8 +1,18 @@
 <?php
 
-$shakal_base_config = array();
+$headers = getallheaders();
 
-$shakal_base_config['rewrite'] = false;
-$shakal_base_config['rewrite_ext'] = '.html';
+if(isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == '443')
+	$shakal_protocol = 'https://';
+else
+	$shakal_protocol = 'http://';
+
+$shakal_host        = $headers['Host'];
+$shakal_rewrite     = false;
+$shakal_site_path   = 'shakal/';
+$shakal_base_script = 'index.php';
+$shakal_base_path   = $shakal_protocol . $shakal_host . '/' . $shakal_site_path;
+
+unset($headers);
 
 ?>

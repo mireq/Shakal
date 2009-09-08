@@ -59,9 +59,8 @@ class Registry implements \ArrayAccess
 	 */
 	public static function &getInstance()
 	{
-		if (is_null(self::$instance)) {
+		if (is_null(self::$instance))
 			self::$instance = new self;
-		}
 		return self::$instance;
 	}
 
@@ -245,6 +244,88 @@ class Registry implements \ArrayAccess
 		unset(self::getInstance()->$name);
 	}
 	//@}
+}
+
+/**
+ * \brief Register pre konfiguračné voľby \shakal a Modulov.
+ * \ingroup ShakalGlobals
+ * \licenses \gpl
+ *
+ * Konfigurácia modulov a systému \shakal zisťuje pomocou
+ * tejto triedy.
+ *
+ * Každý modul má vlastné konfiguračné voľby. Všetky metódy pre
+ * manipuláciu s dátami majú nepovinný parameter \a module určujúci
+ * modul, s ktorého konfiguračnými voľbami chceme manipulovať.
+ * Ak táto položka zostane nenastavená platia tieto dáta globálne
+ * pre celú aplikáciu.
+ *
+ * \sa \link config \endlink
+ */
+class ConfigRegistry
+{
+	private static $instance = null;
+	private $_registry = array();
+
+	private function __construct() {
+	}
+
+	/**
+	 * Získanie inštancie ConfigRegistry.
+	 */
+	public static function &getInstance() {
+		if (is_null(self::$instance))
+			self::$instance = new self;
+		return self::$instance;
+	}
+
+	private function getCfg($name, $module) {
+		return $this->_registry[$module][$name];
+	}
+
+	private function setCfg($name, $value, $module) {
+		if (!isset($this->_registry[$module]))
+			$this->_registry[$module] = array();
+		$this->_registry[$module][$name] = $value;
+	}
+
+	private function registredCfg($name, $module) {
+		return isset($this->_registry[$module][$name]);
+	}
+
+	private function unregisterCfg($name, $module) {
+		unset($this->_registry[$module][$name]);
+		if (count($this->_registry[$module]) === 0)
+			unset($this->_registry[$module]);
+	}
+
+	/**
+	 * Získanie hodnoty konfiguračnej voľby \a name modulu \a module.
+	 */
+	public static function get($name, $module = '') {
+		return self::getInstance()->getCfg($name, $module);
+	}
+
+	/**
+	 * Nastavenie konfiguračnej voľby \a name modulu \a module na hodnotu \a value.
+	 */
+	public static function set($name, $value, $module = '') {
+		self::getInstance()->setCfg($name, $value, $module);
+	}
+
+	/**
+	 * Ak je nastavená konfiguračná voľba \a name modulu \a module vráti funkcia \e true.
+	 */
+	public static function isRegistred($name, $module = '') {
+		return self::getInstance()->registredCfg($name, $module);
+	}
+
+	/**
+	 * Zrušenie konfiguračnej voľby \a name modulu \a module.
+	 */
+	public static function unregister($name, $module = '') {
+		self::getInstance()->unregisterCfg($name, $module);
+	}
 }
 
 ?>
