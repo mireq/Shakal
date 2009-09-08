@@ -1,0 +1,25 @@
+/**
+
+\dir config
+\brief Adresár pre uloženie konfiguračných súborov.
+
+V tomto adresári sa nachádzajú konfiguračné súbory systému \shakal a
+súbory pre konfiguráciu modulov. Formát súborov je štandardný zdrojový
+kód v PHP.
+
+Všetky lokálne premenné v tomto súbore budú prístupné cez triedu
+ConfigRegistry.
+
+Ukážkový konfiguračný súbor
+\code
+<?php
+$mojaPremenna = 'hodnota';
+?>
+\endcode
+
+V kóde je táto premenná dostupná len cez rozhranie ConfigRegistry:
+\code
+$hodnota = ConfigRegistry::get('mojaPremenna');
+\endcode
+
+*/

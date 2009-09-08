@@ -197,7 +197,7 @@ pole[text] = 'abc'\endverbatim
 	/**
 	 * Získanie riadku tabuľky ako asociatívne pole.
 	 *
-	 * \sa fetchArray
+	 * \sa fetchArray()
 	 */
 	public function fetchAssoc()
 	{
@@ -207,7 +207,7 @@ pole[text] = 'abc'\endverbatim
 	/**
 	 * Získanie riadku tabuľky ako homogénne pole.
 	 *
-	 * \sa fetchArray
+	 * \sa fetchArray()
 	 */
 	public function fetchRow()
 	{
@@ -218,7 +218,7 @@ pole[text] = 'abc'\endverbatim
 	 * Získanie všetkych riadkov tabuľky do homogénneho poľa pričom každá
 	 * položka zodpovedá riadku vrátenému funkciou fetchArray.
 	 *
-	 * \sa fetchArray
+	 * \sa fetchArray()
 	 */
 	public function fetchAllArray($type = self::Both)
 	{
@@ -232,7 +232,7 @@ pole[text] = 'abc'\endverbatim
 	/**
 	 * Získanie všetkych riadkov tabuľky ako homogénne pole.
 	 *
-	 * \sa fetchObject
+	 * \sa fetchObject()
 	 */
 	public function fetchAllObject($className = null, array $params = null)
 	{
@@ -382,7 +382,7 @@ class SqlDb
 	/**
 	 * Metóda vráti prefix tabuliek v databáze.
 	 *
-	 * \sa setDbPrefix
+	 * \sa setDbPrefix()
 	 */
 	public function dbPrefix()
 	{
@@ -828,7 +828,7 @@ class SqlSelect
 	 * bude dotaz <tt>SELECT tabulka_1.a, tabulka_2.b, tabulka_2.c FROM tabulka_1
 	 * INNER JOIN tabulka_2 ON tabulka_1.a = tabulka_2.x</tt>.
 	 *
-	 * \sa joinInner
+	 * \sa joinInner()
 	 */
 	public function &join($table, $cond, $columns = array())
 	{
@@ -908,7 +908,7 @@ class SqlSelect
 	 * \endcode
 	 * bude spojenie <tt>SELECT tabulka_1.a, tabulka_2.b FROM tabulka_1 INNER JOIN tabulka_2 USING (x, y)</tt>.
 	 *
-	 * \sa joinInnerUsing
+	 * \sa joinInnerUsing()
 	 */
 	public function &joinUsing($table, $column, $columns = array())
 	{
@@ -1043,7 +1043,7 @@ class SqlSelect
 	 * Syntax podmienky HAVING je identická ako u WHERE. Argumenty tejto metódy
 	 * sú rovnaké ako u where.
 	 *
-	 * \sa where
+	 * \sa where()
 	 */
 	public function &having($cond)
 	{
@@ -1059,7 +1059,7 @@ class SqlSelect
 	 * Zoradenie výsledkov podľa vybraných stĺpcov. Argumenty funkcie sú rovnaké,
 	 * ako u group.
 	 *
-	 * \sa group
+	 * \sa group()
 	 */
 	public function &order($order)
 	{

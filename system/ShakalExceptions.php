@@ -15,7 +15,7 @@ namespace Shakal;
  * navyše ple \e data používané pre rozšírené informácie
  * o chybe, ktorá nastala.
  */
-abstract class Exception extends \Exception
+abstract class BaseException extends \Exception
 {
 	private $data;
 
@@ -51,7 +51,7 @@ abstract class Exception extends \Exception
  * Táto výnimka má za následok zastavenie behu aplikácie.
  * Užívateľa o chybe informuje samostatnou stránkou.
  */
-class SystemException extends Exception
+class SystemException extends BaseException
 {
 	const OtherError = 0; /**< Nešpecifikovaná chyba. */
 	const NotFound   = 1; /**< Chyba vyvolaná pri neexistujúcej stránke. */
@@ -79,7 +79,7 @@ class SystemException extends Exception
  * Vyvolanie tejto výnimky spôsobí jej zobrazenie
  * na stránke, ktorú navštívil užívateľ.
  */
-class UserException extends Exception
+class UserException extends BaseException
 {
 	const UserNotice = 0; /**< Poznámka, ktorá má minimálny vplyv na ďalší beh aplikácie. */
 	const UserWaring = 1; /**< Varovanie pri akciách ktoré je možné napriek tomu dokončiť. */
@@ -108,7 +108,7 @@ class UserException extends Exception
  *
  * Výnimka pri spúšťaní SQL príkazu.
  */
-class SqlException extends Exception
+class SqlException extends BaseException
 {
 	/**
 	 * Vytvorenie SQL výnimky.
