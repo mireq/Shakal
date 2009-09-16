@@ -18,10 +18,10 @@ function shakalReadConfig()
 {
 	$configRegistry = array();
 
-	if ($confDir = opendir(SITE_PATH.DIRECTORY_SEPARATOR.'config')) {
+	if ($confDir = opendir(SITE_PATH.DS.'config')) {
 		while (($fileName = readdir($confDir)) !== false) {
 			if (preg_match('/^.*\.cfg\.php$/', $fileName)) {
-				require(SITE_PATH.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.$fileName);
+				require(SITE_PATH.DS.'config'.DS.$fileName);
 				$vars = get_defined_vars();
 				unset($vars['confDir']);
 				unset($vars['fileName']);
@@ -42,11 +42,12 @@ function shakalReadConfig()
 	}
 }
 
-require(SITE_PATH.'system'.DIRECTORY_SEPARATOR.'ShakalLinkUtils.php');
-require(Path::toSystemPath(SITE_PATH.'system/ShakalAccessors.php'));
-require(Path::toSystemPath(SITE_PATH.'system/ShakalExceptions.php'));
-require(Path::toSystemPath(SITE_PATH.'system/ShakalRouter.php'));
-require(Path::toSystemPath(SITE_PATH.'system/ShakalTable.php'));
+require(SITE_PATH.'system'.DS.'ShakalLinkUtils.php');
+require(SITE_PATH.'system'.DS.'ShakalAccessors.php');
+require(SITE_PATH.'system'.DS.'ShakalExceptions.php');
+require(SITE_PATH.'system'.DS.'ShakalRouter.php');
+require(SITE_PATH.'system'.DS.'ShakalTable.php');
+require(SITE_PATH.'system'.DS.'sql'.DS.'sql.php');
 
 shakalReadConfig();
 ?>

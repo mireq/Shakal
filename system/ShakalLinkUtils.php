@@ -26,6 +26,9 @@ class Path
 	 * Oddeľovače adresárov nie sú jednotné medzi platformami. Pri vývoji
 	 * \shakal som použil všade unixové cesty, ktoré sa prevádzajú na iný
 	 * typ ciest podľa cieľovej platformy.
+	 *
+	 * \param int string
+	 * \return string
 	 */
 	public static function toSystemPath($string)
 	{
@@ -42,6 +45,7 @@ class Path
 	 * ./), alebo globálna (začínajúca sa koreňovným adresárom /).
 	 *
 	 * \sa setPath()
+	 * \param string path
 	 */
 	public function __construct($path = null)
 	{
@@ -54,6 +58,8 @@ class Path
 	 *
 	 * Položky sú zoradené od vonkajšieho adresára po vnútorny adresár, alebo súbor.
 	 * V prípade globálnej adresy je koreňový adresár (prvý provok) \e null.
+	 *
+	 * \return array
 	 */
 	public function pathArr()
 	{
@@ -71,6 +77,8 @@ class Path
 	 * \warning Táto funkcia nekontroluje adresárovú štruktúru.
 	 * Použitím odkazov je možné dostať sa mimo základného adresára aj keď táto funkcia
 	 * vracia \e true.
+	 *
+	 * \return bool
 	 */
 	public function isSafe()
 	{
@@ -79,6 +87,8 @@ class Path
 
 	/**
 	 * Funkcia zisťuje, či je cesta lokálna (nezačína koreňovým adresárom).
+	 *
+	 * \return bool
 	 */
 	public function isLocal()
 	{
@@ -91,8 +101,9 @@ class Path
 	/**
 	 * Pridanie ďalšej položky na koniec cesty.
 	 *
-	 * @param path Cesta, ktorá sa má pridať na koniec. Argumentom môže byť buď
-	 *             reťazec, alebo pole položiek.
+	 * \param string path
+	 * Cesta, ktorá sa má pridať na koniec. Argumentom môže byť buď reťazec,
+	 * alebo pole položiek.
 	 *
 	 * \code
 	 * $path->push('adresar');    // Cesta bude 'adresar'.
@@ -104,6 +115,8 @@ class Path
 	 *                            // Prechod do nadradeného adresára a podadresára
 	 *                            // xyz ('adresar/xyz').
 	 * \endcode
+	 *
+	 * \return Path
 	 */
 	public function &push($path)
 	{
@@ -145,6 +158,8 @@ class Path
 	 * ktorý by sa dal odobrať pridá sa '..' (nadradený adresár) v prípade,
 	 * že cesta je lokálna, alebo sa neudeje nič v prípade, že cesta je
 	 * globálna.
+	 *
+	 * \return Path
 	 */
 	public function &pop()
 	{
@@ -190,6 +205,8 @@ class Path
 
 	/**
 	 * Prevod cesty na reťazec skrátený o koreňový adresár.
+	 *
+	 * \return string
 	 */
 	public function toStringNoRoot()
 	{
@@ -201,6 +218,8 @@ class Path
 
 	/**
 	 * Prevod cesty do systémového tvaru.
+	 *
+	 * \return string
 	 */
 	public function sysPath()
 	{
@@ -209,6 +228,8 @@ class Path
 
 	/**
 	 * Prevod cesty na absolútnu cestu v systémovom tvare.
+	 *
+	 * \return string
 	 */
 	public function absoluteSysPath()
 	{
@@ -290,13 +311,15 @@ abstract class Link
 	private $_defaultModule = '';
 
 	/**
-	 * Vyrenderovanie odkazu do formátu vhodného pre ďalšie použitie (napríklad reťazec).
+	 * Vyrenderovanie odkazu do formátu vhodného pre ďalšie použitie (napríklad
+	 * reťazec).
 	 */
 	abstract function render();
 
 	/**
 	 * Vytvorenie noveého odkazu s cestou \a path.
 	 *
+	 * \param string|Path path
 	 * \sa setPath()
 	 */
 	public function __construct($path = null)
@@ -308,6 +331,7 @@ abstract class Link
 	/**
 	 * Nastavenie cesty na novú hodnotu \a path.
 	 *
+	 * \param string|Path path
 	 * \sa __construct()
 	 */
 	public function setPath($path)
@@ -329,6 +353,7 @@ abstract class Link
 	 * \note Táto funkcia sa bežne používa pri vygenerovaných odkazoch, ktoré
 	 * majú prednastavenú určitú základnú cestu.
 	 *
+	 * \param string|Path path
 	 * \sa setPath
 	 */
 	public function pathAppend($path)
@@ -341,6 +366,8 @@ abstract class Link
 
 	/**
 	 * Získanie aktuálnej cesty.
+	 *
+	 * \return Path
 	 */
 	public function path()
 	{
@@ -501,6 +528,8 @@ abstract class Link
 	 * Štandardný modul je po vytvorení inštancie nastavený na \e null.
 	 * V takomto prípade premenné neplatia pre konkrétny modul, ale sú
 	 * dostupné z každého modulu.
+	 *
+	 * \param string module
 	 */
 	public function setDefaultModule($module)
 	{
@@ -509,6 +538,8 @@ abstract class Link
 
 	/**
 	 * Zistenie hodnoty štandardného modulu.
+	 *
+	 * \return string
 	 */
 	public function defaultModule()
 	{
@@ -519,6 +550,7 @@ abstract class Link
 	 * Získanie premenných vo forme asociatívneho poľa.
 	 *
 	 * \sa getTempVars(), getRawVars()
+	 * \return array
 	 */
 	protected function getVars()
 	{
@@ -529,6 +561,7 @@ abstract class Link
 	 * Získanie dočasných premenných vo forme asociatívneho poľa.
 	 *
 	 * \sa getVars(), getRawVars()
+	 * \return array
 	 */
 	protected function getTempVars()
 	{
@@ -539,6 +572,7 @@ abstract class Link
 	 * Získanie "surových" premenných vo forme asociatívneho poľa.
 	 *
 	 * \sa getVars(), getTempVars()
+	 * \return array
 	 */
 	protected function getRawVars()
 	{
@@ -591,6 +625,9 @@ class HttpLink extends Link
 	 *
 	 * Jednotlivé reťazce typu ošetrenáPremenná=ošetrenáHodnota
 	 * je možné spojiť pomocou &amp; a použiť v adrese.
+	 *
+	 * \param array  vars
+	 * \param string prefix
 	 */
 	protected function renderHttpVars($vars, $prefix = '')
 	{
@@ -607,6 +644,8 @@ class HttpLink extends Link
 
 	/**
 	 * Získanie základnej adresy, v ktorej sa nachádza \shakal.
+	 *
+	 * \return string
 	 */
 	protected function getBaseAddress() {
 		return ConfigRegistry::get('shakal_base_path');

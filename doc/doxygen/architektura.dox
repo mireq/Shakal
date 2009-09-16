@@ -1,0 +1,36 @@
+/**
+
+\page shakal_architektura Architektúra
+
+Architektúra \shakal je postavená na upravenej architektúre MVC. Na nasledujúcom obrázku sú jednotlivé časti a ich vzájomné prepojenia.
+
+\dot
+digraph G {
+	node [shape=box];
+	rankdir=LR;
+	router->controller->model;
+	controller->view;
+	router [label="Router",URL="\ref shakal_architektura_router"];
+	controller [label="Controller",URL="\ref shakal_architektura_controller"];
+	model [label="Model",URL="\ref shakal_architektura_model"];
+	view [label="View",URL="\ref shakal_architektura_view"];
+}
+\enddot
+
+\section shakal_architektura_router Router
+
+Úlohou tejto časti je spracovanie URL, ktoré zadal užívateľ. Na základe URL rozhoduje o tom, ktoré časti budú načítané.
+
+\section shakal_architektura_controller Controller
+
+Táto časť pracuje s POST / GET dátami od užívateľa. Spracuje požiadavky užívateľa, podľa nej použije model na získanie, alebo úpravu dát a výsledok pošle pohľadu.
+
+\section shakal_architektura_model Model
+
+Úlohou modelu je správa dát. Prijíma jednoduché príkazy typu getArticle, updateUserData … Podľa potreby vracia požadované dáta.
+
+\section shakal_architektura_view View
+
+O reprezentáciu dát užívateľovi sa stará view. Prijíma dáta a tie zobrazuje v požadovanej forme (nemusí to byť len HTML, ale aj XML dáta, prípadne PDF).
+
+*/

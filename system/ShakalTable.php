@@ -34,7 +34,7 @@ abstract class TableCell
 	 * šablónou. Pre html šablónu to je html kód. XML šablóny používajú
 	 * DOM objekt.
 	 *
-	 * \return Spracované dáta reprezentujúce bunku tabuľky.
+	 * \return mixed Spracované dáta reprezentujúce bunku tabuľky.
 	 */
 	public abstract function render();
 
@@ -45,6 +45,7 @@ abstract class TableCell
 	 * volaniu bez agrumentu \a data a následnému nastaveniu dát
 	 * metódou setData.
 	 *
+	 * \param string data
 	 * \sa setData()
 	 */
 	public function __construct($data = null)
@@ -55,6 +56,7 @@ abstract class TableCell
 	/**
 	 * Získanie dát uložených v bunke.
 	 *
+	 * \return string
 	 * \sa setData()
 	 */
 	public function data()
@@ -70,6 +72,7 @@ abstract class TableCell
 	 * dát je preto nutné použiť htmlspecialchars (ak je požadovaný
 	 * výstup xhtml, alebo xml transformované do xhtml).
 	 *
+	 * \param string data
 	 * \sa data()
 	 */
 	public function setData($data)
@@ -83,6 +86,7 @@ abstract class TableCell
 	 * Nastavenie tejto hodnoty na \e true spôsobí pri html
 	 * zmenu tagu \e td na \e th.
 	 *
+	 * \param bool headerCell
 	 * \sa isHeaderCell()
 	 */
 	public function setHeaderCell($headerCell)
@@ -93,6 +97,7 @@ abstract class TableCell
 	/**
 	 * Metóda vráti true, ak bunka je hlavičkou.
 	 *
+	 * \return bool
 	 * \sa setHeaderCell()
 	 */
 	public function isHeaderCell()
@@ -148,12 +153,16 @@ abstract class TableCell
  */
 abstract class TableRow
 {
+	/**
+	 * \var TableCell
+	 */
 	protected $_cells      = array(); /**< Pole buniek riadku tabuľky. */
 	protected $_attributes = array(); /**< Zoznam atribútov riadku. */
 
 	/**
 	 * Renderovanie riadku tabuľky a jeho buniek.
 	 *
+	 * \return mixed
 	 * \sa TableCell::render()
 	 */
 	public abstract function render();
@@ -162,6 +171,9 @@ abstract class TableRow
 	 * Vytvorenie novej bunky tabuľky.
 	 *
 	 * Táto funkcia vytvára novú bunku podľa typu tabušky.
+	 *
+	 * \param array data
+	 * \return TableCell
 	 */
 	protected abstract function newTableCell($data);
 
@@ -172,6 +184,7 @@ abstract class TableRow
 	 * je ekvivalentné volaniu bez argumentov a následnému
 	 * nastaveniu dát pomocou setData().
 	 *
+	 * \param array data
 	 * \sa setData()
 	 */
 	public function __construct(array $data = array())
@@ -182,6 +195,7 @@ abstract class TableRow
 	/**
 	 * Získanie riadkov tabuľky.
 	 *
+	 * \return array
 	 * \sa setData()
 	 */
 	public function data()
@@ -195,6 +209,7 @@ abstract class TableRow
 	 * Dáta sú vo forme poľa. Jeho položky sú inštanciami TableCell.
 	 * Chybné položky sú ignorované.
 	 *
+	 * \param array data
 	 * \sa data()
 	 */
 	public function setData(array $data)
@@ -206,6 +221,8 @@ abstract class TableRow
 
 	/**
 	 * Pridanie bunky tabuľky.
+	 *
+	 * \param TableCell|string cell
 	 */
 	public function addCell($cell)
 	{
@@ -264,7 +281,13 @@ abstract class TableRow
  */
 abstract class Table
 {
+	/**
+	 * \var TableRow
+	 */
 	protected $_rows       = array(); /**< Zoznam riadkov tabuľky. */
+	/**
+	 * \var TableRow
+	 */
 	protected $_headerRows = array(); /**< Zoznam riadkov hlavičky tabuľky. */
 	protected $_caption    = array(); /**< Titulok tabuľky. */
 	protected $_attributes = array(); /**< Atribúty tabuľky. */
@@ -277,15 +300,16 @@ abstract class Table
 	public abstract function render();
 	/**
 	 * Vytvorenie nového riadku tabuľky.
+	 * \return TableRow
 	 */
 	protected abstract function newTableRow($data);
 
 	/**
 	 * Vytvorenie novej tabuľky.
 	 *
-	 * @param data       Dáta tabuľky (pri výstupe do html sú v tagu tbody).
-	 * @param headerData Dáta v hlavičke tabuľky (pri výstupe do html sú v tagu thead).
-	 * @param caption    Titulok tabuľky.
+	 * @param array  data       Dáta tabuľky (pri výstupe do html sú v tagu tbody).
+	 * @param array  headerData Dáta v hlavičke tabuľky (pri výstupe do html sú v tagu thead).
+	 * @param string caption    Titulok tabuľky.
 	 */
 	public function __construct(array $data = array(), array $headerData = array(), $caption = null)
 	{
@@ -296,6 +320,7 @@ abstract class Table
 
 	/**
 	 * Získanie spracovaných dát tabuľky.
+	 * \return array
 	 */
 	public function data()
 	{
@@ -304,6 +329,7 @@ abstract class Table
 
 	/**
 	 * Získanie spracovaných dát hlavičky tabuľky.
+	 * \return array
 	 */
 	public function headerData()
 	{
@@ -312,6 +338,7 @@ abstract class Table
 
 	/**
 	 * Získanie titulku tabuľky.
+	 * \return string
 	 */
 	public function caption()
 	{
@@ -323,6 +350,7 @@ abstract class Table
 	 *
 	 * Funkcia prechádza pole a postupne pridáva jeho položky ako riadky.
 	 *
+	 * \param array data
 	 * \sa addRow()
 	 */
 	public function setData(array $data)
@@ -335,6 +363,7 @@ abstract class Table
 	/**
 	 * Nastavenie dát hlavičky tabuľky.
 	 *
+	 * \param array data
 	 * \sa setData()
 	 */
 	public function setHeaderData(array $data)
@@ -346,6 +375,7 @@ abstract class Table
 
 	/**
 	 * Nastavenie titulku tabuľky.
+	 * \param string caption
 	 */
 	public function setCaption($caption)
 	{
@@ -358,6 +388,7 @@ abstract class Table
 	 * V prípade, že argument \a row nie je inštanciu TableRow
 	 * bude automaticky na tento typ konvertovaný.
 	 *
+	 * \param TableRow row
 	 * \sa addHeaderRow()
 	 */
 	public function addRow($row)
@@ -370,6 +401,7 @@ abstract class Table
 	/**
 	 * Pridanie riadku hlavičky tabuľky.
 	 *
+	 * \param TableRow row
 	 * \sa addRow()
 	 */
 	public function addHeaderRow($row)

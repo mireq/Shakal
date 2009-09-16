@@ -248,7 +248,7 @@ OPTIMIZE_OUTPUT_VHDL   = NO
 # use: inc=Fortran f=C. Note that for custom extensions you also need to set
 # FILE_PATTERNS otherwise the files are not read by doxygen.
 
-EXTENSION_MAPPING      = 
+EXTENSION_MAPPING      = module=PHP install=PHP inc=PHP
 
 # If you use STL classes (i.e. std::string, std::vector, etc.) but do not want 
 # to include (a tag file for) the STL sources as input, then you should 
@@ -313,7 +313,7 @@ TYPEDEF_HIDES_STRUCT   = NO
 # causing a significant performance penality. 
 # If the system has enough physical memory increasing the cache will improve the 
 # performance by keeping more symbols in memory. Note that the value works on 
-# a logarithmic scale so increasing the size by one will rougly double the 
+# a logarithmic scale so increasing the size by one will robeautiful double the 
 # memory usage. The cache size is given by this formula: 
 # 2^(16+SYMBOL_CACHE_SIZE). The valid range is 0..9, the default is 0, 
 # corresponding to a cache size of 2^16 = 65536 symbols
@@ -1418,7 +1418,7 @@ CLASS_GRAPH            = YES
 # indirect implementation dependencies (inheritance, containment, and 
 # class references variables) of the class with other documented classes.
 
-COLLABORATION_GRAPH    = NO
+COLLABORATION_GRAPH    = YES
 
 # If the GROUP_GRAPHS and HAVE_DOT tags are set to YES then doxygen 
 # will generate a graph for groups, showing the direct groups dependencies

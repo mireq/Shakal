@@ -22,9 +22,9 @@ abstract class BaseException extends \Exception
 	/**
 	 * Vytvorenie novej vynimky.
 	 *
-	 * \param code  Kód výnimky.
-	 * \param msg   Správa pre užívateľa.
-	 * \param data  Rozšírené informácie o výnimke.
+	 * \param string code  Kód výnimky.
+	 * \param int    msg   Správa pre užívateľa.
+	 * \param mixed  data  Rozšírené informácie o výnimke.
 	 */
 	public function __construct($msg = '', $code = 0, $data = null)
 	{
@@ -34,6 +34,8 @@ abstract class BaseException extends \Exception
 
 	/**
 	 * Získanie rozšírených dát k výnimke.
+	 *
+	 * @return mixed
 	 */
 	public final function getData()
 	{
@@ -59,9 +61,9 @@ class SystemException extends BaseException
 	/**
 	 * Vytvorenie novej systémovej výnimky.
 	 *
-	 * \param msg   Správa, ktorá sa zobrazí užívateľovi pri vyvolaní výnimky.
-	 * \param code  Typ vyvolanej výnimky.
-	 * \param data  Dáta spresňujúce výnimku.
+	 * \param string msg   Správa, ktorá sa zobrazí užívateľovi pri vyvolaní výnimky.
+	 * \param int    code  Typ vyvolanej výnimky.
+	 * \param mixed  data  Dáta spresňujúce výnimku.
 	 */
 	public function __construct($msg = '', $code = self::OtherError, $data = null)
 	{
@@ -88,9 +90,9 @@ class UserException extends BaseException
 	/**
 	 * Vytvorenie novej užívateľskej výnimky.
 	 *
-	 * \param msg   Správa pre užívateľa.
-	 * \param code  Typ výnimky.
-	 * \param data  Dodatočné dáta.
+	 * \param string msg   Správa pre užívateľa.
+	 * \param int    code  Typ výnimky.
+	 * \param mixed  data  Dodatočné dáta.
 	 */
 	public function __construct($msg = '', $code = self::UserNotice, $data = null)
 	{
@@ -113,17 +115,19 @@ class SqlException extends BaseException
 	/**
 	 * Vytvorenie SQL výnimky.
 	 *
-	 * @param code  Chybový kód vrátený databázou.
-	 * @param msg   Chybová správa.
-	 * @param query Dotaz, pri ktorom došlo k výnimke.
+	 * \param string msg   Chybová správa.
+	 * \param int    code  Chybový kód vrátený databázou.
+	 * \param string query Dotaz, pri ktorom došlo k výnimke.
 	 */
-	public function __construct($code, $msg, $query)
+	public function __construct($msg, $code, $query)
 	{
 		parent::__construct($msg, $code, $query);
 	}
 
 	/**
 	 * Dotaz, pri ktorom nastala výnimka.
+	 *
+	 * \return string
 	 */
 	public function query()
 	{

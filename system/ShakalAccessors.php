@@ -51,11 +51,20 @@ namespace Shakal;
  */
 class Registry implements \ArrayAccess
 {
+	/**
+	 * \var Registry
+	 */
 	private static $instance = null;
+
+	/**
+	 * \var array
+	 */
 	private $_registry = array();
 
 	/**
 	 * Získanie inštancie Registry (singleton).
+	 *
+	 * \return Registry
 	 */
 	public static function &getInstance()
 	{
@@ -264,7 +273,14 @@ class Registry implements \ArrayAccess
  */
 class ConfigRegistry
 {
+	/**
+	 * \var ConfigRegistry
+	 */
 	private static $instance = null;
+
+	/**
+	 * \var array
+	 */
 	private $_registry = array();
 
 	private function __construct() {
@@ -301,6 +317,9 @@ class ConfigRegistry
 
 	/**
 	 * Získanie hodnoty konfiguračnej voľby \a name modulu \a module.
+	 *
+	 * \param string name
+	 * \param string module
 	 */
 	public static function get($name, $module = '') {
 		return self::getInstance()->getCfg($name, $module);
@@ -308,6 +327,9 @@ class ConfigRegistry
 
 	/**
 	 * Nastavenie konfiguračnej voľby \a name modulu \a module na hodnotu \a value.
+	 *
+	 * \param string name
+	 * \param string module
 	 */
 	public static function set($name, $value, $module = '') {
 		self::getInstance()->setCfg($name, $value, $module);
@@ -315,6 +337,9 @@ class ConfigRegistry
 
 	/**
 	 * Ak je nastavená konfiguračná voľba \a name modulu \a module vráti funkcia \e true.
+	 *
+	 * \param string name
+	 * \param string module
 	 */
 	public static function isRegistred($name, $module = '') {
 		return self::getInstance()->registredCfg($name, $module);
@@ -322,6 +347,9 @@ class ConfigRegistry
 
 	/**
 	 * Zrušenie konfiguračnej voľby \a name modulu \a module.
+	 *
+	 * \param string name
+	 * \param string module
 	 */
 	public static function unregister($name, $module = '') {
 		self::getInstance()->unregisterCfg($name, $module);
