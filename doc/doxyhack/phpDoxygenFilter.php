@@ -94,7 +94,7 @@ function processVar($code, $comment, $codeOffset, $commentOffset) {
 }
 
 function processFunction($code, $comment, $codeOffset, $commentOffset) {
-	$funcPattern = "/^\s*((?:(?:public|private|protected|static|abstract|final)\s*)*)function\s*(?:&?)\s*([\w\d]*)\((.*?)\)/is";
+	$funcPattern = "/^\s*((?:(?:public|private|protected|static|abstract|final)\s*)*)function\s*(?:&?)\s*([\w\d]*)\((.*?)\)\s*(?:\{|;)/is";
 	preg_match($funcPattern, substr($code, $codeOffset), $funcMatch, PREG_OFFSET_CAPTURE);
 	if (count($funcMatch) > 0) {
 		// vyhľadanie parametrov
