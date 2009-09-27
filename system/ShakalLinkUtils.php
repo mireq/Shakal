@@ -8,7 +8,7 @@ namespace Shakal;
 
 /**
  * \brief Trieda poskytujúca jednotný prístup k adresárom na rôznych platformách.
- * \ingroup Shakal_Core, Shakal_Url
+ * \ingroup Shakal_Core Shakal_URL
  * \licenses \gpl
  *
  * Táto trieda umožňuje vytváranie, zjednodušenie a kontrolu zadaných ciest.
@@ -239,7 +239,7 @@ class Path
 
 /**
  * \brief Abstraktná trieda na tvorbu odkzov pre \shakal.
- * \ingroup Shakal_Url
+ * \ingroup Shakal_URL
  * \licenses \gpl
  *
  * Pomocou tejto triedy je možné vytvoriť adresu pre \shakal obsahujúcu cestu,
@@ -582,7 +582,7 @@ abstract class Link
 
 /**
  * \brief Štandardný HTTP odkaz používajúci premenné v URL.
- * \ingroup Shakal_Url
+ * \ingroup Shakal_URL
  * \licenses \gpl
  */
 class HttpLink extends Link
@@ -686,7 +686,7 @@ class HttpLink extends Link
 
 /**
  * \brief HTTP odkaz využívajúci rewrite engine.
- * \ingroup Shakal_Url
+ * \ingroup Shakal_URL
  * \licenses \gpl
  *
  * Tieto odkazy umožňujú imitáciu odkazov na statických stránkach.

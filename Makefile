@@ -24,7 +24,7 @@ doxyhack:
 	cd doc/doxyhack/generated ;\
 	doxygen doc/doxygen/Doxyfile ;\
 	echo "--- LOG ---" ;\
-	cat doxygen.log
+	sed doxygen.log -e "s/doc\/doxyhack\/generated\///g"
 
 gendoxyphp:
 	php doc/doxyhack/filterPhpFiles.php . doc/doxyhack/generated/
@@ -45,4 +45,4 @@ cscope:
 	@rm ./cscope.files
 
 ctags:
-	@ctags -f tags -R . --exclude=".git" --totals=yes --tag-relative=yes --PHP-kinds=+cf
+	@ctags -f tags -R . --fields=aiS --exclude=".git" --totals=yes --PHP-kinds=+cf --extra=+f

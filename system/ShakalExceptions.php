@@ -55,8 +55,14 @@ abstract class BaseException extends \Exception
  */
 class SystemException extends BaseException
 {
-	const OtherError = 0; /**< Nešpecifikovaná chyba. */
-	const NotFound   = 1; /**< Chyba vyvolaná pri neexistujúcej stránke. */
+	/// Nešpecifikovaná chyba.
+	const OtherError    = 0;
+	/// Chyba pri includovaní súboru.
+	const IncludeError  = 1;
+	/// Chyba vyvolaná pri neexistujúcej stránke.
+	const NotFound      = 2;
+	/// Chýbajúca trieda.
+	const ClassNotFound = 3;
 
 	/**
 	 * Vytvorenie novej systémovej výnimky.
@@ -104,13 +110,13 @@ class UserException extends BaseException
 
 
 /**
- * \brief Chyba pri spúšťaní SQL príkazu.
- * \ingroup Shakal_Sql Shakal_Exceptions
+ * \brief Chyba pri spúšťaní %SQL príkazu.
+ * \ingroup Shakal_SQL Shakal_Exceptions
  * \licenses \gpl
  *
  * Výnimka pri spúšťaní SQL príkazu.
  */
-class SqlException extends BaseException
+class SQLException extends BaseException
 {
 	/**
 	 * Vytvorenie SQL výnimky.
@@ -119,7 +125,7 @@ class SqlException extends BaseException
 	 * \param int    code  Chybový kód vrátený databázou.
 	 * \param string query Dotaz, pri ktorom došlo k výnimke.
 	 */
-	public function __construct($msg, $code, $query)
+	public function __construct($msg, $code = 0, $query = null)
 	{
 		parent::__construct($msg, $code, $query);
 	}
