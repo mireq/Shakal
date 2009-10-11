@@ -7,7 +7,7 @@ namespace Shakal;
  * \ingroup Shakal_SQL
  * \licenses \gpl
  */
-class mysql_SQLDriver implements SQLDriver
+class mysql_SQLDriver implements ISQLDriver
 {
 	private $_link = null;
 

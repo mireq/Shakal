@@ -8,11 +8,24 @@
 namespace Shakal;
 
 /**
+ * \brief Rozhranie pre %SQL výrazy.
+ * \licenses \gpl
+ */
+interface ISQLExpr
+{
+	/**
+	 * Prevod do natívneho %SQL výrazu.
+	 * \return string
+	 */
+	public function toNativeExpr(SQLConnection $connection);
+}
+
+/**
  * \brief %SQL výraz.
  * \ingroup Shakal_SQL
  * \licenses \gpl
  */
-class SQLExpr
+class SQLExpr implements ISQLExpr
 {
 	private $_args;
 
@@ -26,9 +39,6 @@ class SQLExpr
 		$this->_args = $args;
 	}
 
-	/**
-	 * Prevod do natívneho %SQL výrazu.
-	 */
 	public function toNativeExpr(SQLConnection $connection)
 	{
 		return implode($this->_args);
@@ -40,25 +50,23 @@ class SQLExpr
  * \ingroup Shakal_SQL
  * \licenses \gpl
  */
-class SQLRawExpr
+class SQLRawExpr implements ISQLExpr
 {
-	private $_query;
+	private $_expr;
 
 	/**
 	 * Vytvorenie nového jednoduchého %SQL výrazu. Tento výraz sa nebude nijako
 	 * modifikovať.
+	 * \param string expr
 	 */
-	public function __construct($query)
+	public function __construct($expr)
 	{
-		$this->_query = $query;
+		$this->_expr = $expr;
 	}
 
-	/**
-	 * Prevod do natívneho %SQL výrazu.
-	 */
 	public function toNativeExpr(SQLConnection $connection)
 	{
-		return $this->_query;
+		return (string)$this->_expr;
 	}
 }
 

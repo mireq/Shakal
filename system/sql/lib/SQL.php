@@ -12,6 +12,21 @@ namespace Shakal;
  * \ingroup Shakal_SQL
  * \licenses \gpl
  *
+ * \section shakal_sql_dotazy Spôsob zápisu dotazov
+ *
+ * \subsection shakal_sql_identifikatory Spôsob zápisu tabuliek a stĺpcov
+ *
+ * Názov tabuľky sa začína reťazcom '\#__'. Táto konvencia bola zavedená kvôli
+ * zjednodušniu rozpoznávania názvu tabuľky a stĺpca. Zároveň symbolizuje prefix
+ * tabuľky, ktorý sa pridá pred jej názov v prípade, že bol prefix nastavený.
+ *
+ * Stĺpce tabuľky sa nijako neupravujú, ich zápis je teda 'nazov_stlpca'.
+ *
+ * Identifikátory sa zapisujú buď ako samostatný názov tabuľky (teda
+ * '\#__tabulka'), alebo ako samostatný názov stĺpca tabuľky (teda
+ * 'nazov_stlpca'), alebo spolu tvoria identifikátor tabuľky a jej stĺpca
+ * (\#__tabulka.nazov_stlpca).
+ *
  * <h2>Typy výsledkov fetchArray\anchor SQL_resultTypeDesc</h2>
  * Typ vráteného výsledku môže mať nasledujúce hodnoty:
  * <table>
@@ -59,7 +74,9 @@ class SQL
 	 * Tieto konštanty sa používajú na určenie spôsobu, akým sa ošetria premenné
 	 * vkladané do databázy.
 	 */
+	/// \name Dátové typy rozpoznávané týmto rozhraním k databáze.
 	///@{
+
 	/// \brief Binárne dáta, obvykle sa kódujú rovnako ako textové dáta.
 	const Blob     = 'l';
 	/// \brief Číslo s plávajúcou desatinnou čiarkou.
@@ -73,8 +90,6 @@ class SQL
 	const Field    = 'c';
 	/// \brief Názov tabuľky.
 	const Table    = 'i';
-	///@}
-	///@{
 	/// \brief Typ dátum.
 	const Date     = 'd';
 	/// \brief Čas.
@@ -83,7 +98,6 @@ class SQL
 	const DateTime = 'x';
 	/// \brief Dátum a čas v unixovom formáte.
 	const UnixTime = 'u';
-	///@}
 	///@}
 
 	/**

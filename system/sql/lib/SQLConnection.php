@@ -11,6 +11,8 @@ namespace Shakal;
  * \brief Spojenie s databázovým serverom.
  * \ingroup Shakal_SQL
  * \licenses \gpl
+ * \todo Vyhodiť funkciu escape, v selecte sa dá namiesto toho vysladať SQLExpr,
+ * ktoré sa následne vyrenderuje.
  */
 class SQLConnection
 {
@@ -94,7 +96,7 @@ class SQLConnection
 	}
 
 	/**
-	 * Spustenie SQL dotazu.
+	 * Spustenie %SQL dotazu.
 	 * \todo Zdokumentovať
 	 * \return SQLResult
 	 */
@@ -113,12 +115,44 @@ class SQLConnection
 	}
 
 	/**
+	 * Ošetrenie reťazcov do formy vhodnej pre %SQL server.
+	 * \sa ISQLDriver::escape()
+	 */
+	public function escape($value, $type)
+	{
+		return $this->_driver->escape($value, $type);
+	}
+
+	/**
+	 * Vytvorenie nového výberového %SQL dotazu.
+	 * \sa SQLSelect
+	 * \return SQLSelect
+	 */
+	public function select()
+	{
+		return new SQLSelect($this);
+	}
+
+	/**
 	 * Získanie referencie na ovládač pracujúci s databázou.
 	 * \return SQLDriver
 	 */
 	public function &driver()
 	{
 		return $this->_driver;
+	}
+
+	/**
+	 * Prevod názvu tabuľky na natívny %SQL názov. Na vstupe je identifikátor
+	 * ako "#__tabulka", v ktorom sa nahradí reťazec "#__" na prefix určený pre
+	 * túto tabuľku.
+	 * \param string tableName
+	 * \return string
+	 */
+	public function toNativeTableName($tableName)
+	{
+		/// @todo Dokončiť
+		return str_replace('#__', '', $tableName);
 	}
 }
 

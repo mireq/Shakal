@@ -15,7 +15,7 @@ namespace Shakal;
  * Rozhranie SQLDriver implementujú všetky triedy pre prístup ku konkrétnym
  * databázam (mysql, postgresql ...).
  */
-interface SQLDriver
+interface ISQLDriver
 {
 	/**
 	 * Pripojenie k databázovému serveru.
